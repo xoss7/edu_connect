@@ -13,29 +13,37 @@ class StudentInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(student.nom, style: AppTextStyles.headline),
-        const SizedBox(height: AppDimensions.spaceXs),
-        Text(
-          [
-            student.ecole,
-            student.filiere,
-            student.niveau,
-          ].join(AppStrings.profileFieldSeparator),
-          style: AppTextStyles.body,
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(AppDimensions.spaceLg),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(student.nom, style: AppTextStyles.headline),
+            const SizedBox(height: AppDimensions.spaceXs),
+            Text(
+              [
+                student.ecole,
+                student.filiere,
+                student.niveau,
+              ].join(AppStrings.profileFieldSeparator),
+              style: AppTextStyles.body,
+            ),
+            const SizedBox(height: AppDimensions.spaceMd),
+            Text(
+              '${AppStrings.profileReputationLabel}${AppStrings.profileFieldSeparator}${student.reputationScore}',
+              style: AppTextStyles.title,
+            ),
+            const SizedBox(height: AppDimensions.spaceMd),
+            Text(
+              AppStrings.profileCompetencesLabel,
+              style: AppTextStyles.title,
+            ),
+            const SizedBox(height: AppDimensions.spaceSm),
+            CompetencesChips(competences: student.competences),
+          ],
         ),
-        const SizedBox(height: AppDimensions.spaceMd),
-        Text(
-          '${AppStrings.profileReputationLabel}${AppStrings.profileFieldSeparator}${student.reputationScore}',
-          style: AppTextStyles.title,
-        ),
-        const SizedBox(height: AppDimensions.spaceMd),
-        Text(AppStrings.profileCompetencesLabel, style: AppTextStyles.title),
-        const SizedBox(height: AppDimensions.spaceSm),
-        CompetencesChips(competences: student.competences),
-      ],
+      ),
     );
   }
 }
