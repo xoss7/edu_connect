@@ -9,6 +9,7 @@ class AppColors {
   static const Color surface = Color(0xFFFFFFFF);
   static const Color surfaceVariant = Color(0xFFE9E9E6);
   static const Color error = Color(0xFFBA1A1A);
+  static const Color like = Color(0xFFE0245E);
 
   static const Color textPrimary = Color(0xFF1B1B1B);
   static const Color textSecondary = Color(0xFF5F5F5F);
