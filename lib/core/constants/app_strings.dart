@@ -37,4 +37,6 @@ class AppStrings {
   static const String profileCompetencesLabel = 'Compétences';
   static const String profileAddCompetenceHint = 'Ajouter une compétence';
   static const String profileFieldSeparator = ' · ';
+  static const String profileNoCompetences =
+      'Aucune compétence renseignée pour l\'instant';
 }

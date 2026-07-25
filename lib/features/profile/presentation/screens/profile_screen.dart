@@ -7,7 +7,8 @@ import '../../../../core/constants/app_strings.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../auth/data/auth_repository.dart';
 import '../providers/profile_providers.dart';
-import '../widgets/student_info_card.dart';
+import '../widgets/competences_card.dart';
+import '../widgets/profile_header.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({required this.uid, super.key});
@@ -29,9 +30,15 @@ class ProfileScreen extends ConsumerWidget {
         ],
       ),
       body: studentAsync.when(
-        data: (student) => Padding(
+        data: (student) => SingleChildScrollView(
           padding: const EdgeInsets.all(AppDimensions.spaceLg),
-          child: StudentInfoCard(student: student),
+          child: Column(
+            children: [
+              ProfileHeader(student: student),
+              const SizedBox(height: AppDimensions.spaceLg),
+              CompetencesCard(competences: student.competences),
+            ],
+          ),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) =>
