@@ -6,10 +6,14 @@ import '../../features/auth/presentation/providers/login_controller.dart';
 import '../../features/auth/presentation/providers/register_controller.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
+import '../../features/posts/presentation/screens/create_post_screen.dart';
+import '../../features/posts/presentation/screens/feed_screen.dart';
+import '../../features/posts/presentation/screens/post_detail_screen.dart';
 import '../../features/profile/presentation/screens/edit_profile_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../services/auth_service.dart';
 import 'app_routes.dart';
+import 'app_shell.dart';
 import 'go_router_refresh_stream.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -33,7 +37,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       }
 
       if (!loggedIn) return loggingIn ? null : AppRoutes.login;
-      if (loggingIn || state.matchedLocation == '/') return AppRoutes.profile;
+      if (loggingIn || state.matchedLocation == '/') return AppRoutes.feed;
       return null;
     },
     routes: [
@@ -46,16 +50,47 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.register,
         builder: (context, state) => const RegisterScreen(),
       ),
-      GoRoute(
-        path: AppRoutes.profile,
-        builder: (context, state) =>
-            ProfileScreen(uid: ref.read(authServiceProvider).currentUser!.uid),
-        routes: [
-          GoRoute(
-            path: AppRoutes.editProfile,
-            builder: (context, state) => EditProfileScreen(
-              uid: ref.read(authServiceProvider).currentUser!.uid,
-            ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            AppShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.feed,
+                builder: (context, state) => const FeedScreen(),
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.createPost,
+                    builder: (context, state) => const CreatePostScreen(),
+                  ),
+                  GoRoute(
+                    path: AppRoutes.postDetail,
+                    builder: (context, state) => PostDetailScreen(
+                      postId: state.pathParameters['postId']!,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.profile,
+                builder: (context, state) => ProfileScreen(
+                  uid: ref.read(authServiceProvider).currentUser!.uid,
+                ),
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.editProfile,
+                    builder: (context, state) => EditProfileScreen(
+                      uid: ref.read(authServiceProvider).currentUser!.uid,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
