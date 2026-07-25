@@ -10,4 +10,7 @@ class FirestorePaths {
   static const String matches = 'matches';
   static const String conversations = 'conversations';
   static const String messages = 'messages';
+
+  // Subcollection of a `posts/{postId}` document.
+  static const String postComments = 'comments';
 }
