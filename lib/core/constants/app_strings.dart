@@ -9,6 +9,10 @@ class AppStrings {
   static const String genericSave = 'Enregistrer';
   static const String genericRetry = 'Réessayer';
 
+  // Navigation
+  static const String navFeedLabel = 'Fil';
+  static const String navProfileLabel = 'Profil';
+
   // Auth
   static const String authEmailLabel = 'Email';
   static const String authPasswordLabel = 'Mot de passe';
