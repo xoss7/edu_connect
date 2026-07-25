@@ -15,7 +15,36 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // Other collections (posts, resources, quizzes, ...) aren't built yet.
+    match /posts/{postId} {
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null
+        && request.resource.data.auteurId == request.auth.uid;
+
+      // Only the likedBy field may ever change post-creation, and only by
+      // exactly adding or removing the requester's own uid — a client
+      // can't rewrite another user's post content or forge someone else's
+      // like/unlike.
+      allow update: if request.auth != null
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likedBy'])
+        && (
+          (request.resource.data.likedBy.hasAll(resource.data.likedBy)
+            && request.resource.data.likedBy.removeAll(resource.data.likedBy) == [request.auth.uid])
+          || (resource.data.likedBy.hasAll(request.resource.data.likedBy)
+            && resource.data.likedBy.removeAll(request.resource.data.likedBy) == [request.auth.uid])
+        );
+
+      allow delete: if false;
+
+      match /comments/{commentId} {
+        allow read: if request.auth != null;
+        allow create: if request.auth != null
+          && request.resource.data.auteurId == request.auth.uid;
+        allow update, delete: if false;
+      }
+    }
+
+    // Other collections (resources, quizzes, ...) aren't built yet.
     match /{document=**} {
       allow read, write: if false;
     }
