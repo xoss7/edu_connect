@@ -8,4 +8,24 @@ class AppStrings {
   static const String genericCancel = 'Annuler';
   static const String genericSave = 'Enregistrer';
   static const String genericRetry = 'Réessayer';
+
+  // Auth
+  static const String authEmailLabel = 'Email';
+  static const String authPasswordLabel = 'Mot de passe';
+  static const String authNomLabel = 'Nom';
+  static const String authEcoleLabel = 'École';
+  static const String authFiliereLabel = 'Filière';
+  static const String authNiveauLabel = 'Niveau';
+  static const String authLoginTitle = 'Connexion';
+  static const String authRegisterTitle = 'Inscription';
+  static const String authLoginButton = 'Se connecter';
+  static const String authRegisterButton = 'Créer un compte';
+  static const String authNoAccountPrompt = 'Pas encore de compte ?';
+  static const String authHasAccountPrompt = 'Déjà un compte ?';
+
+  // Validation
+  static const String validationRequired = 'Champ requis';
+  static const String validationEmailInvalid = 'Email invalide';
+  static const String validationPasswordTooShort =
+      'Le mot de passe doit contenir au moins 6 caractères';
 }
