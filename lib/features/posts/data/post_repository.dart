@@ -30,6 +30,10 @@ class PostRepository {
         .map((snapshot) => snapshot.docs.map(postFromDoc).toList());
   }
 
+  Stream<Post> watchPost(String postId) {
+    return _posts.doc(postId).snapshots().map(postFromDoc);
+  }
+
   Future<void> createPost({
     required String auteurId,
     required String texte,
