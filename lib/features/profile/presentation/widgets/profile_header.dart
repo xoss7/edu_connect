@@ -4,6 +4,7 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_text_styles.dart';
+import '../../../../core/widgets/initials_avatar.dart';
 import '../../domain/student.dart';
 
 class ProfileHeader extends StatelessWidget {
@@ -11,27 +12,11 @@ class ProfileHeader extends StatelessWidget {
 
   final Student student;
 
-  String get _initials {
-    final words = student.nom.trim().split(RegExp(r'\s+'));
-    final letters = words
-        .where((word) => word.isNotEmpty)
-        .take(2)
-        .map((word) => word[0].toUpperCase());
-    return letters.join();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CircleAvatar(
-          radius: 40,
-          backgroundColor: AppColors.primary,
-          child: Text(
-            _initials,
-            style: AppTextStyles.headline.copyWith(color: AppColors.onPrimary),
-          ),
-        ),
+        InitialsAvatar(name: student.nom, radius: 40),
         const SizedBox(height: AppDimensions.spaceMd),
         Text(student.nom, style: AppTextStyles.headline),
         const SizedBox(height: AppDimensions.spaceXs),
