@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid} {
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.data.reputationScore == 0;
+
+      allow update: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.data.reputationScore == resource.data.reputationScore;
+
+      allow delete: if false;
+    }
+
+    // Other collections (posts, resources, quizzes, ...) aren't built yet.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
