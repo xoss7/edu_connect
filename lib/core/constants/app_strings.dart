@@ -43,4 +43,20 @@ class AppStrings {
   static const String profileFieldSeparator = ' · ';
   static const String profileNoCompetences =
       'Aucune compétence renseignée pour l\'instant';
+
+  // Feed
+  static const String feedTitle = 'Fil d\'actualité';
+  static const String feedEmptyMessage = 'Aucun post pour l\'instant';
+  static const String feedFilterTitle = 'Filtres';
+  static const String feedClearFilters = 'Effacer les filtres';
+  static const String feedAllNiveaux = 'Tous les niveaux';
+  static const String postComposerHint = 'Quoi de neuf ?';
+  static const String postDetailTitle = 'Post';
+  static const String commentInputHint = 'Ajouter un commentaire...';
+
+  // Relative time
+  static const String timeJustNow = 'À l\'instant';
+  static const String timeMinutesSuffix = 'min';
+  static const String timeHoursSuffix = 'h';
+  static const String timeDaysSuffix = 'j';
 }
