@@ -22,10 +22,19 @@ class AppStrings {
   static const String authRegisterButton = 'Créer un compte';
   static const String authNoAccountPrompt = 'Pas encore de compte ?';
   static const String authHasAccountPrompt = 'Déjà un compte ?';
+  static const String authLogoutButton = 'Se déconnecter';
 
   // Validation
   static const String validationRequired = 'Champ requis';
   static const String validationEmailInvalid = 'Email invalide';
   static const String validationPasswordTooShort =
       'Le mot de passe doit contenir au moins 6 caractères';
+
+  // Profile
+  static const String profileTitle = 'Profil';
+  static const String profileEditTitle = 'Modifier le profil';
+  static const String profileReputationLabel = 'Réputation';
+  static const String profileCompetencesLabel = 'Compétences';
+  static const String profileAddCompetenceHint = 'Ajouter une compétence';
+  static const String profileFieldSeparator = ' · ';
 }
