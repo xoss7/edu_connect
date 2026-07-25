@@ -52,6 +52,9 @@ class AppStrings {
   static const String feedAllNiveaux = 'Tous les niveaux';
   static const String postComposerHint = 'Quoi de neuf ?';
   static const String postDetailTitle = 'Post';
+  static const String postCreateTitle = 'Nouveau post';
+  static const String postAddImage = 'Ajouter une image';
+  static const String postPublish = 'Publier';
   static const String commentInputHint = 'Ajouter un commentaire...';
 
   // Relative time

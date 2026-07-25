@@ -78,3 +78,10 @@ final feedProvider = StreamProvider<List<Post>>((ref) {
         }).toList(),
       );
 });
+
+// Single-post live stream — used by the detail screen (and reusable by any
+// future feature that needs to display one post), separate from the list
+// stream feedProvider maintains.
+final postProvider = StreamProvider.family<Post, String>((ref, postId) {
+  return ref.watch(postRepositoryProvider).watchPost(postId);
+});
