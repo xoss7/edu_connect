@@ -9,6 +9,7 @@ import '../../../auth/data/auth_repository.dart';
 import '../providers/profile_providers.dart';
 import '../widgets/competences_card.dart';
 import '../widgets/profile_header.dart';
+import '../widgets/profile_info_card.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({required this.uid, super.key});
@@ -35,6 +36,8 @@ class ProfileScreen extends ConsumerWidget {
           child: Column(
             children: [
               ProfileHeader(student: student),
+              const SizedBox(height: AppDimensions.spaceLg),
+              ProfileInfoCard(student: student),
               const SizedBox(height: AppDimensions.spaceLg),
               CompetencesCard(competences: student.competences),
             ],
