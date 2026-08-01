@@ -44,7 +44,24 @@ service cloud.firestore {
       }
     }
 
-    // Other collections (resources, quizzes, ...) aren't built yet.
+    match /resources/{resourceId} {
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null
+        && request.resource.data.uploaderId == request.auth.uid
+        && request.resource.data.downloads == 0;
+
+      // Only the downloads counter may ever change post-creation, and only
+      // by exactly +1 per write — mirrors the posts/likedBy precise-diff
+      // rule, but for a simple counter instead of a set of uids.
+      allow update: if request.auth != null
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['downloads'])
+        && request.resource.data.downloads == resource.data.downloads + 1;
+
+      allow delete: if false;
+    }
+
+    // Other collections (quizzes, projects, ...) aren't built yet.
     match /{document=**} {
       allow read, write: if false;
     }
