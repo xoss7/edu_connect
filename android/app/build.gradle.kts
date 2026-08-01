@@ -9,7 +9,10 @@ plugins {
 
 android {
     namespace = "sn.edu.ept.git.dic2.edu_connect"
-    compileSdk = flutter.compileSdkVersion
+    // file_picker's flutter_plugin_android_lifecycle dependency requires
+    // compiling against API 36+; Flutter's bundled default (flutter.compileSdkVersion)
+    // hasn't caught up yet, so this is pinned explicitly.
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
