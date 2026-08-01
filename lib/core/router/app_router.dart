@@ -11,6 +11,9 @@ import '../../features/posts/presentation/screens/feed_screen.dart';
 import '../../features/posts/presentation/screens/post_detail_screen.dart';
 import '../../features/profile/presentation/screens/edit_profile_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/quizzes/presentation/screens/create_quiz_screen.dart';
+import '../../features/quizzes/presentation/screens/quizzes_screen.dart';
+import '../../features/quizzes/presentation/screens/take_quiz_screen.dart';
 import '../../features/resources/presentation/screens/resource_detail_screen.dart';
 import '../../features/resources/presentation/screens/resources_screen.dart';
 import '../../features/resources/presentation/screens/upload_resource_screen.dart';
@@ -92,6 +95,25 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     builder: (context, state) => ResourceDetailScreen(
                       resourceId: state.pathParameters['resourceId']!,
                     ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.quizzes,
+                builder: (context, state) => const QuizzesScreen(),
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.createQuiz,
+                    builder: (context, state) => const CreateQuizScreen(),
+                  ),
+                  GoRoute(
+                    path: AppRoutes.takeQuiz,
+                    builder: (context, state) =>
+                        TakeQuizScreen(quizId: state.pathParameters['quizId']!),
                   ),
                 ],
               ),
