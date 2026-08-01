@@ -42,25 +42,30 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationThemeData(
         filled: true,
-        fillColor: AppColors.surfaceVariant,
+        fillColor: AppColors.surface,
+        prefixIconColor: AppColors.primary,
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppDimensions.spaceMd,
+          horizontal: AppDimensions.spaceLg,
           vertical: AppDimensions.spaceMd,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
-          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(AppDimensions.radiusPill),
+          borderSide: BorderSide(
+            color: AppColors.primary.withValues(alpha: 0.3),
+          ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
-          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(AppDimensions.radiusPill),
+          borderSide: BorderSide(
+            color: AppColors.primary.withValues(alpha: 0.3),
+          ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
+          borderRadius: BorderRadius.circular(AppDimensions.radiusPill),
           borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
+          borderRadius: BorderRadius.circular(AppDimensions.radiusPill),
           borderSide: const BorderSide(color: AppColors.error, width: 1.5),
         ),
       ),
@@ -78,7 +83,7 @@ class AppTheme {
           foregroundColor: AppColors.onPrimary,
           padding: const EdgeInsets.symmetric(vertical: AppDimensions.spaceMd),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
+            borderRadius: BorderRadius.circular(AppDimensions.radiusPill),
           ),
         ),
       ),

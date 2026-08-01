@@ -13,7 +13,10 @@ class EmailField extends StatelessWidget {
       controller: controller,
       keyboardType: TextInputType.emailAddress,
       autocorrect: false,
-      decoration: const InputDecoration(labelText: AppStrings.authEmailLabel),
+      decoration: const InputDecoration(
+        labelText: AppStrings.authEmailLabel,
+        prefixIcon: Icon(Icons.email_outlined),
+      ),
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return AppStrings.validationRequired;

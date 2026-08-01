@@ -22,6 +22,7 @@ class _PasswordFieldState extends ConsumerState<PasswordField> {
       obscureText: _obscure,
       decoration: InputDecoration(
         labelText: AppStrings.authPasswordLabel,
+        prefixIcon: const Icon(Icons.lock_outline),
         suffixIcon: IconButton(
           icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off),
           onPressed: () => setState(() => _obscure = !_obscure),

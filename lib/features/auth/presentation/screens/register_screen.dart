@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/router/app_routes.dart';
 import '../providers/register_controller.dart';
+import '../widgets/auth_illustration.dart';
 import '../widgets/register_form.dart';
 
 class RegisterScreen extends ConsumerWidget {
@@ -21,23 +23,44 @@ class RegisterScreen extends ConsumerWidget {
         return;
       }
       if (previous?.isLoading == true && !next.isLoading) {
-        context.go(AppRoutes.profile);
+        context.go(AppRoutes.feed);
       }
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.authRegisterTitle)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppDimensions.spaceLg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: AppDimensions.spaceLg),
+              const AuthIllustration(icon: Icons.person_add_alt),
+              const SizedBox(height: AppDimensions.spaceLg),
+              const Text(
+                AppStrings.authRegisterHeadline,
+                style: AppTextStyles.headline,
+              ),
+              const SizedBox(height: AppDimensions.spaceXs),
+              const Text(
+                AppStrings.authRegisterSubtitle,
+                style: AppTextStyles.subtitle,
+              ),
+              const SizedBox(height: AppDimensions.spaceLg),
               const RegisterForm(),
               const SizedBox(height: AppDimensions.spaceMd),
-              TextButton(
-                onPressed: () => context.go(AppRoutes.login),
-                child: const Text(AppStrings.authHasAccountPrompt),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    AppStrings.authHasAccountPrompt,
+                    style: AppTextStyles.body,
+                  ),
+                  TextButton(
+                    onPressed: () => context.go(AppRoutes.login),
+                    child: const Text(AppStrings.authLoginButton),
+                  ),
+                ],
               ),
             ],
           ),

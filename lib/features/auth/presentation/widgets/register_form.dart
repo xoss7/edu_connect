@@ -68,6 +68,7 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
             controller: _nomController,
             decoration: const InputDecoration(
               labelText: AppStrings.authNomLabel,
+              prefixIcon: Icon(Icons.person_outline),
             ),
             validator: _requiredValidator,
           ),
@@ -80,6 +81,7 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
             controller: _ecoleController,
             decoration: const InputDecoration(
               labelText: AppStrings.authEcoleLabel,
+              prefixIcon: Icon(Icons.school_outlined),
             ),
             validator: _requiredValidator,
           ),
@@ -88,6 +90,7 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
             controller: _filiereController,
             decoration: const InputDecoration(
               labelText: AppStrings.authFiliereLabel,
+              prefixIcon: Icon(Icons.menu_book_outlined),
             ),
             validator: _requiredValidator,
           ),
@@ -96,6 +99,7 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
             initialValue: _niveau,
             decoration: const InputDecoration(
               labelText: AppStrings.authNiveauLabel,
+              prefixIcon: Icon(Icons.bar_chart_outlined),
             ),
             items: Niveau.all
                 .map(
