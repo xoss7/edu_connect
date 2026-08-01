@@ -11,6 +11,7 @@ class AppStrings {
 
   // Navigation
   static const String navFeedLabel = 'Fil';
+  static const String navResourcesLabel = 'Ressources';
   static const String navProfileLabel = 'Profil';
 
   // Auth
@@ -60,6 +61,21 @@ class AppStrings {
   static const String postAddImage = 'Ajouter une image';
   static const String postPublish = 'Publier';
   static const String commentInputHint = 'Ajouter un commentaire...';
+
+  // Resources
+  static const String resourcesTitle = 'Ressources';
+  static const String resourcesEmptyMessage =
+      'Aucune ressource pour l\'instant';
+  static const String resourcesSearchHint = 'Rechercher un titre...';
+  static const String resourceTitreLabel = 'Titre';
+  static const String resourceMatiereLabel = 'Matière';
+  static const String resourcePickFileButton = 'Choisir un PDF';
+  static const String resourceFileRequired = 'Sélectionne un fichier PDF';
+  static const String resourceUploadTitle = 'Nouvelle ressource';
+  static const String resourceUploadButton = 'Publier';
+  static const String resourceDownloadButton = 'Télécharger';
+  static const String resourceDownloadSuccess = 'Téléchargement terminé';
+  static const String resourceDownloadsLabel = 'téléchargements';
 
   // Relative time
   static const String timeJustNow = 'À l\'instant';
