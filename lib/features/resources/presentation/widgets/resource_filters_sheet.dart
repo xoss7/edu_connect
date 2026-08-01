@@ -64,7 +64,7 @@ class _ResourceFiltersSheetState extends ConsumerState<ResourceFiltersSheet> {
           TextField(
             controller: _matiereController,
             decoration: const InputDecoration(
-              labelText: AppStrings.resourceMatiereLabel,
+              labelText: AppStrings.matiereLabel,
             ),
           ),
           const SizedBox(height: AppDimensions.spaceMd),
