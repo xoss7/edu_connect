@@ -61,7 +61,26 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // Other collections (quizzes, projects, ...) aren't built yet.
+    match /quizzes/{quizId} {
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null
+        && request.resource.data.createurId == request.auth.uid;
+
+      allow update, delete: if false;
+    }
+
+    match /quiz_attempts/{attemptId} {
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid;
+
+      allow update, delete: if false;
+    }
+
+    // Other collections (projects, matches, conversations, ...) aren't
+    // built yet.
     match /{document=**} {
       allow read, write: if false;
     }
