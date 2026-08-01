@@ -6,6 +6,7 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String feed = '/feed';
   static const String resources = '/resources';
+  static const String quizzes = '/quizzes';
 
   // Relative to [profile] — full path is '/profile/edit'.
   static const String editProfile = 'edit';
@@ -18,4 +19,9 @@ class AppRoutes {
   // '/resources/:resourceId'.
   static const String uploadResource = 'upload';
   static const String resourceDetail = ':resourceId';
+
+  // Relative to [quizzes] — full paths are '/quizzes/create' and
+  // '/quizzes/:quizId'.
+  static const String createQuiz = 'create';
+  static const String takeQuiz = ':quizId';
 }

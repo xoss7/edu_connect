@@ -101,7 +101,7 @@ class _UploadResourceScreenState extends ConsumerState<UploadResourceScreen> {
                 TextFormField(
                   controller: _titreController,
                   decoration: const InputDecoration(
-                    labelText: AppStrings.resourceTitreLabel,
+                    labelText: AppStrings.titreLabel,
                   ),
                   validator: _requiredValidator,
                 ),
@@ -109,7 +109,7 @@ class _UploadResourceScreenState extends ConsumerState<UploadResourceScreen> {
                 TextFormField(
                   controller: _matiereController,
                   decoration: const InputDecoration(
-                    labelText: AppStrings.resourceMatiereLabel,
+                    labelText: AppStrings.matiereLabel,
                   ),
                   validator: _requiredValidator,
                 ),

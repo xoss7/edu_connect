@@ -12,7 +12,12 @@ class AppStrings {
   // Navigation
   static const String navFeedLabel = 'Fil';
   static const String navResourcesLabel = 'Ressources';
+  static const String navQuizzesLabel = 'Quiz';
   static const String navProfileLabel = 'Profil';
+
+  // Common field labels (reused across features)
+  static const String titreLabel = 'Titre';
+  static const String matiereLabel = 'Matière';
 
   // Auth
   static const String authEmailLabel = 'Email';
@@ -67,8 +72,6 @@ class AppStrings {
   static const String resourcesEmptyMessage =
       'Aucune ressource pour l\'instant';
   static const String resourcesSearchHint = 'Rechercher un titre...';
-  static const String resourceTitreLabel = 'Titre';
-  static const String resourceMatiereLabel = 'Matière';
   static const String resourcePickFileButton = 'Choisir un PDF';
   static const String resourceFileRequired = 'Sélectionne un fichier PDF';
   static const String resourceUploadTitle = 'Nouvelle ressource';
@@ -76,6 +79,29 @@ class AppStrings {
   static const String resourceDownloadButton = 'Télécharger';
   static const String resourceDownloadSuccess = 'Téléchargement terminé';
   static const String resourceDownloadsLabel = 'téléchargements';
+
+  // Quizzes
+  static const String quizzesTitle = 'Quiz';
+  static const String quizzesEmptyMessage = 'Aucun quiz pour l\'instant';
+  static const String quizzesSearchHint = 'Rechercher un titre ou matière...';
+  static const String quizCreateTitle = 'Nouveau quiz';
+  static const String quizQuestionsCountLabel = 'questions';
+  static const String quizAddQuestionButton = 'Ajouter une question';
+  static const String quizRemoveQuestionButton = 'Supprimer la question';
+  static const String quizQuestionTexteLabel = 'Question';
+  static const String quizOptionLabel = 'Option';
+  static const String quizAddOptionButton = 'Ajouter une option';
+  static const String quizCorrectAnswerHint = 'Réponse correcte';
+  static const String quizPublishButton = 'Publier';
+  static const String quizMinQuestionsError =
+      'Ajoute au moins une question complète (question, au moins 2 options'
+      ' et une réponse correcte sélectionnée)';
+  static const String quizFinishButton = 'Terminer';
+  static const String quizScoreResult = 'Score';
+  static const String quizResultClose = 'Fermer';
+  static const String quizAttemptsHistoryTitle = 'Historique des quiz';
+  static const String quizAttemptsEmptyMessage =
+      'Aucune tentative pour l\'instant';
 
   // Relative time
   static const String timeJustNow = 'À l\'instant';
