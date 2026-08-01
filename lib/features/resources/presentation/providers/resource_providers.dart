@@ -100,3 +100,12 @@ final resourcesProvider = StreamProvider<List<Resource>>((ref) {
         }).toList(),
       );
 });
+
+// Single-resource live stream — used by the detail screen so the downloads
+// counter stays live there too, same idea as posts.dart's postProvider.
+final resourceProvider = StreamProvider.family<Resource, String>((
+  ref,
+  resourceId,
+) {
+  return ref.watch(resourceRepositoryProvider).watchResource(resourceId);
+});
