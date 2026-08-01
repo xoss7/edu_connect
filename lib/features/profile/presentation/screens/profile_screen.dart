@@ -10,6 +10,7 @@ import '../providers/profile_providers.dart';
 import '../widgets/competences_card.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_info_card.dart';
+import '../widgets/quiz_attempts_card.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({required this.uid, super.key});
@@ -40,6 +41,8 @@ class ProfileScreen extends ConsumerWidget {
               ProfileInfoCard(student: student),
               const SizedBox(height: AppDimensions.spaceLg),
               CompetencesCard(competences: student.competences),
+              const SizedBox(height: AppDimensions.spaceLg),
+              QuizAttemptsCard(uid: uid),
             ],
           ),
         ),
