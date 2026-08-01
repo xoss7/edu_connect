@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_text_styles.dart';
@@ -66,7 +67,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: AppDimensions.spaceLg),
-                const AuthIllustration(icon: Icons.login),
+                const AuthIllustration(assetPath: AppAssets.loginIllustration),
                 const SizedBox(height: AppDimensions.spaceLg),
                 const Text(
                   AppStrings.authLoginHeadline,
