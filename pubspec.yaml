@@ -45,6 +45,15 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^28.1.33
   path_provider: ^2.1.5
 
+# file_picker's own android/build.gradle hardcodes compileSdk 34 (not yet
+# updated upstream). flutter_plugin_android_lifecycle 2.0.25+ dynamically
+# reads flutter.compileSdkVersion, which is 36 on this Flutter SDK,
+# causing an AAR-metadata mismatch against file_picker's fixed 34. Pinned
+# to the last version still hardcoded at compileSdk 34 (its public API
+# hasn't changed across these patch releases) until file_picker updates.
+dependency_overrides:
+  flutter_plugin_android_lifecycle: 2.0.24
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
