@@ -13,6 +13,13 @@ class StorageService {
     await ref.putFile(file);
     return ref.getDownloadURL();
   }
+
+  Future<void> downloadFile({
+    required String url,
+    required File destination,
+  }) async {
+    await _firebaseStorage.refFromURL(url).writeToFile(destination);
+  }
 }
 
 final storageServiceProvider = Provider<StorageService>((ref) {
