@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_text_styles.dart';
@@ -35,7 +36,7 @@ class RegisterScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: AppDimensions.spaceLg),
-              const AuthIllustration(icon: Icons.person_add_alt),
+              const AuthIllustration(assetPath: AppAssets.registerIllustration),
               const SizedBox(height: AppDimensions.spaceLg),
               const Text(
                 AppStrings.authRegisterHeadline,

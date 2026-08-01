@@ -12,6 +12,5 @@ class AppDimensions {
   static const double radiusLg = 16;
   static const double radiusPill = 999;
 
-  static const double illustrationSize = 140;
-  static const double illustrationIconSize = 64;
+  static const double illustrationSize = 220;
 }
