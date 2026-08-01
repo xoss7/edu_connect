@@ -27,6 +27,10 @@ class ResourceRepository {
         .map((snapshot) => snapshot.docs.map(resourceFromDoc).toList());
   }
 
+  Stream<Resource> watchResource(String resourceId) {
+    return _resources.doc(resourceId).snapshots().map(resourceFromDoc);
+  }
+
   Future<void> createResource({
     required String uploaderId,
     required String titre,
