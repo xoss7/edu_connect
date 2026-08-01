@@ -19,15 +19,6 @@ class ProfileHeader extends StatelessWidget {
         InitialsAvatar(name: student.nom, radius: 40),
         const SizedBox(height: AppDimensions.spaceMd),
         Text(student.nom, style: AppTextStyles.headline),
-        const SizedBox(height: AppDimensions.spaceXs),
-        Text(
-          [
-            student.ecole,
-            student.filiere,
-            student.niveau,
-          ].join(AppStrings.profileFieldSeparator),
-          style: AppTextStyles.subtitle,
-        ),
         const SizedBox(height: AppDimensions.spaceMd),
         Container(
           padding: const EdgeInsets.symmetric(
