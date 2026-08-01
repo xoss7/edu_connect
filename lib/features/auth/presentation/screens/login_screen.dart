@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/router/app_routes.dart';
 import '../providers/login_controller.dart';
+import '../widgets/auth_illustration.dart';
 import '../widgets/email_field.dart';
 import '../widgets/password_field.dart';
 
@@ -48,14 +50,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         return;
       }
       if (previous?.isLoading == true && !next.isLoading) {
-        context.go(AppRoutes.profile);
+        context.go(AppRoutes.feed);
       }
     });
 
     final isLoading = ref.watch(loginControllerProvider).isLoading;
 
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.authLoginTitle)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppDimensions.spaceLg),
@@ -64,6 +65,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const SizedBox(height: AppDimensions.spaceLg),
+                const AuthIllustration(icon: Icons.login),
+                const SizedBox(height: AppDimensions.spaceLg),
+                const Text(
+                  AppStrings.authLoginHeadline,
+                  style: AppTextStyles.headline,
+                ),
+                const SizedBox(height: AppDimensions.spaceXs),
+                const Text(
+                  AppStrings.authLoginSubtitle,
+                  style: AppTextStyles.subtitle,
+                ),
+                const SizedBox(height: AppDimensions.spaceLg),
                 EmailField(controller: _emailController),
                 const SizedBox(height: AppDimensions.spaceMd),
                 PasswordField(controller: _passwordController),
@@ -79,9 +93,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       : const Text(AppStrings.authLoginButton),
                 ),
                 const SizedBox(height: AppDimensions.spaceMd),
-                TextButton(
-                  onPressed: () => context.go(AppRoutes.register),
-                  child: const Text(AppStrings.authNoAccountPrompt),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      AppStrings.authNoAccountPrompt,
+                      style: AppTextStyles.body,
+                    ),
+                    TextButton(
+                      onPressed: () => context.go(AppRoutes.register),
+                      child: const Text(AppStrings.authRegisterButton),
+                    ),
+                  ],
                 ),
               ],
             ),

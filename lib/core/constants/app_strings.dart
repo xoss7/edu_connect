@@ -22,6 +22,10 @@ class AppStrings {
   static const String authNiveauLabel = 'Niveau';
   static const String authLoginTitle = 'Connexion';
   static const String authRegisterTitle = 'Inscription';
+  static const String authLoginHeadline = 'Content de te revoir !';
+  static const String authLoginSubtitle = 'Connecte-toi pour continuer';
+  static const String authRegisterHeadline = 'Créons ton compte';
+  static const String authRegisterSubtitle = 'Rejoins la communauté EduConnect';
   static const String authLoginButton = 'Se connecter';
   static const String authRegisterButton = 'Créer un compte';
   static const String authNoAccountPrompt = 'Pas encore de compte ?';
