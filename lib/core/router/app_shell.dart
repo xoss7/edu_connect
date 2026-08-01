@@ -23,6 +23,11 @@ class AppShell extends ConsumerWidget {
             label: AppStrings.navFeedLabel,
           ),
           NavigationDestination(
+            icon: Icon(Icons.picture_as_pdf_outlined),
+            selectedIcon: Icon(Icons.picture_as_pdf),
+            label: AppStrings.navResourcesLabel,
+          ),
+          NavigationDestination(
             icon: Icon(Icons.person_outline),
             selectedIcon: Icon(Icons.person),
             label: AppStrings.navProfileLabel,

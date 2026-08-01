@@ -11,6 +11,9 @@ import '../../features/posts/presentation/screens/feed_screen.dart';
 import '../../features/posts/presentation/screens/post_detail_screen.dart';
 import '../../features/profile/presentation/screens/edit_profile_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/resources/presentation/screens/resource_detail_screen.dart';
+import '../../features/resources/presentation/screens/resources_screen.dart';
+import '../../features/resources/presentation/screens/upload_resource_screen.dart';
 import '../services/auth_service.dart';
 import 'app_routes.dart';
 import 'app_shell.dart';
@@ -68,6 +71,26 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     path: AppRoutes.postDetail,
                     builder: (context, state) => PostDetailScreen(
                       postId: state.pathParameters['postId']!,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.resources,
+                builder: (context, state) => const ResourcesScreen(),
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.uploadResource,
+                    builder: (context, state) => const UploadResourceScreen(),
+                  ),
+                  GoRoute(
+                    path: AppRoutes.resourceDetail,
+                    builder: (context, state) => ResourceDetailScreen(
+                      resourceId: state.pathParameters['resourceId']!,
                     ),
                   ),
                 ],
