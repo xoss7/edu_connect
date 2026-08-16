@@ -6,6 +6,7 @@ import '../../features/auth/presentation/providers/login_controller.dart';
 import '../../features/auth/presentation/providers/register_controller.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/posts/presentation/screens/create_post_screen.dart';
 import '../../features/posts/presentation/screens/feed_screen.dart';
 import '../../features/posts/presentation/screens/post_detail_screen.dart';
@@ -24,6 +25,7 @@ import 'go_router_refresh_stream.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
+    initialLocation: AppRoutes.home,
     refreshListenable: ref.watch(goRouterRefreshProvider),
     redirect: (context, state) {
       final loggedIn = ref.read(authServiceProvider).currentUser != null;
@@ -32,10 +34,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           state.matchedLocation == AppRoutes.register;
 
       if (loggingIn) {
-        // Don't navigate away from /login or /register while a submit is in
-        // flight: Firebase may report a signed-in user mid-registration,
-        // before the Firestore profile doc exists or before a failed
-        // profile write has triggered the auth-account rollback.
         final busy =
             ref.read(loginControllerProvider).isLoading ||
             ref.read(registerControllerProvider).isLoading;
@@ -43,7 +41,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       }
 
       if (!loggedIn) return loggingIn ? null : AppRoutes.login;
-      if (loggingIn || state.matchedLocation == '/') return AppRoutes.feed;
+      if (loggingIn || state.matchedLocation == '/') return AppRoutes.home;
       return null;
     },
     routes: [
@@ -56,6 +54,54 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.register,
         builder: (context, state) => const RegisterScreen(),
       ),
+      GoRoute(
+        path: AppRoutes.feed,
+        builder: (context, state) => const FeedScreen(),
+        routes: [
+          GoRoute(
+            path: AppRoutes.createPost,
+            builder: (context, state) => const CreatePostScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.postDetail,
+            builder: (context, state) => PostDetailScreen(
+              postId: state.pathParameters['postId']!,
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: AppRoutes.resources,
+        builder: (context, state) => const ResourcesScreen(),
+        routes: [
+          GoRoute(
+            path: AppRoutes.uploadResource,
+            builder: (context, state) => const UploadResourceScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.resourceDetail,
+            builder: (context, state) => ResourceDetailScreen(
+              resourceId: state.pathParameters['resourceId']!,
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: AppRoutes.quizzes,
+        builder: (context, state) => const QuizzesScreen(),
+        routes: [
+          GoRoute(
+            path: AppRoutes.createQuiz,
+            builder: (context, state) => const CreateQuizScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.takeQuiz,
+            builder: (context, state) =>
+                TakeQuizScreen(quizId: state.pathParameters['quizId']!),
+          ),
+        ],
+      ),
+
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             AppShell(navigationShell: navigationShell),
@@ -63,59 +109,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.feed,
-                builder: (context, state) => const FeedScreen(),
-                routes: [
-                  GoRoute(
-                    path: AppRoutes.createPost,
-                    builder: (context, state) => const CreatePostScreen(),
-                  ),
-                  GoRoute(
-                    path: AppRoutes.postDetail,
-                    builder: (context, state) => PostDetailScreen(
-                      postId: state.pathParameters['postId']!,
-                    ),
-                  ),
-                ],
+                path: AppRoutes.home,
+                builder: (context, state) => const HomeScreen(),
               ),
             ],
           ),
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.resources,
-                builder: (context, state) => const ResourcesScreen(),
-                routes: [
-                  GoRoute(
-                    path: AppRoutes.uploadResource,
-                    builder: (context, state) => const UploadResourceScreen(),
-                  ),
-                  GoRoute(
-                    path: AppRoutes.resourceDetail,
-                    builder: (context, state) => ResourceDetailScreen(
-                      resourceId: state.pathParameters['resourceId']!,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: AppRoutes.quizzes,
-                builder: (context, state) => const QuizzesScreen(),
-                routes: [
-                  GoRoute(
-                    path: AppRoutes.createQuiz,
-                    builder: (context, state) => const CreateQuizScreen(),
-                  ),
-                  GoRoute(
-                    path: AppRoutes.takeQuiz,
-                    builder: (context, state) =>
-                        TakeQuizScreen(quizId: state.pathParameters['quizId']!),
-                  ),
-                ],
+                path: AppRoutes.messages,
+                builder: (context, state) => const Center(child: Text("Messages (Bientôt)")),
               ),
             ],
           ),

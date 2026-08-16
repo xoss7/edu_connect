@@ -1,41 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../constants/app_strings.dart';
+import '../constants/app_colors.dart';
 
-class AppShell extends ConsumerWidget {
+class AppShell extends StatelessWidget {
   const AppShell({required this.navigationShell, super.key});
 
   final StatefulNavigationShell navigationShell;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: navigationShell.goBranch,
+        onDestinationSelected: (index) => navigationShell.goBranch(index),
+        indicatorColor: AppColors.primary.withValues(alpha: 0.1),
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.dynamic_feed_outlined),
-            selectedIcon: Icon(Icons.dynamic_feed),
-            label: AppStrings.navFeedLabel,
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home),
+            label: 'Accueil',
           ),
           NavigationDestination(
-            icon: Icon(Icons.picture_as_pdf_outlined),
-            selectedIcon: Icon(Icons.picture_as_pdf),
-            label: AppStrings.navResourcesLabel,
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.quiz_outlined),
-            selectedIcon: Icon(Icons.quiz),
-            label: AppStrings.navQuizzesLabel,
+            icon: Icon(Icons.chat_bubble_outline),
+            selectedIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_outline),
             selectedIcon: Icon(Icons.person),
-            label: AppStrings.navProfileLabel,
+            label: 'Profil',
           ),
         ],
       ),

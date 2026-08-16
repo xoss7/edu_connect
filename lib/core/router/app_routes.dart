@@ -1,12 +1,14 @@
 class AppRoutes {
   const AppRoutes._();
 
+  static const String home = '/home';
   static const String login = '/login';
   static const String register = '/register';
   static const String profile = '/profile';
   static const String feed = '/feed';
   static const String resources = '/resources';
   static const String quizzes = '/quizzes';
+  static const String messages = '/messages';
 
   // Relative to [profile] — full path is '/profile/edit'.
   static const String editProfile = 'edit';
