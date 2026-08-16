@@ -15,7 +15,7 @@ class CreatePostController extends AsyncNotifier<void> {
   Future<void> submit({required String texte, File? image}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final uid = ref.read(authServiceProvider).currentUser!.uid;
+      final uid = ref.read(authServiceProvider).currentUser!.id;
       final author = await ref.read(profileRepositoryProvider).getProfile(uid);
 
       String? imageUrl;

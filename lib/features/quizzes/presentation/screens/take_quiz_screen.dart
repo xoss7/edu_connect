@@ -1,11 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_text_styles.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../domain/quiz.dart';
 import '../providers/quiz_providers.dart';
 import '../providers/submit_quiz_attempt_controller.dart';
@@ -79,8 +84,8 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(); // Ferme le dialog
+              context.go(AppRoutes.quizzes); // Retourne à la liste des quiz
             },
             child: const Text(AppStrings.quizResultClose),
           ),
@@ -120,8 +125,10 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen> {
             quiz: quiz,
             selectedAnswers: _selectedAnswers,
             elapsedLabel: _formatElapsed(_elapsedSeconds),
-            onAnswerChanged: (questionIndex, value) =>
-                setState(() => _selectedAnswers[questionIndex] = value),
+            onAnswerChanged: (questionIndex, value) {
+              HapticFeedback.selectionClick();
+              setState(() => _selectedAnswers[questionIndex] = value);
+            },
             onSubmit: () => _submit(quiz),
           );
         },
@@ -150,72 +157,211 @@ class _TakeQuizBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSubmitting = ref
-        .watch(submitQuizAttemptControllerProvider)
-        .isLoading;
-    final allAnswered = !selectedAnswers.contains(null);
+    final isSubmitting =
+        ref.watch(submitQuizAttemptControllerProvider).isLoading;
+    final answeredCount = selectedAnswers.where((a) => a != null).length;
+    final progress = answeredCount / quiz.questions.length;
+    final allAnswered = answeredCount == quiz.questions.length;
 
     return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppDimensions.spaceLg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.timer_outlined),
-                const SizedBox(width: AppDimensions.spaceXs),
-                Text(elapsedLabel, style: AppTextStyles.title),
-              ],
-            ),
-            const SizedBox(height: AppDimensions.spaceLg),
-            for (final entry in quiz.questions.asMap().entries)
-              Padding(
-                padding: const EdgeInsets.only(bottom: AppDimensions.spaceMd),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppDimensions.spaceLg),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${entry.key + 1}. ${entry.value.texte}',
-                          style: AppTextStyles.title,
+      child: Column(
+        children: [
+          LinearProgressIndicator(
+            value: progress,
+            backgroundColor: AppColors.surfaceVariant,
+            color: AppColors.primary,
+            minHeight: 6,
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(AppDimensions.spaceLg),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppDimensions.spaceLg,
+                        vertical: AppDimensions.spaceMd,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        borderRadius:
+                            BorderRadius.circular(AppDimensions.radiusPill),
+                        boxShadow: AppColors.softShadow,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.timer_outlined,
+                            color: AppColors.primary,
+                          ),
+                          const SizedBox(width: AppDimensions.spaceSm),
+                          Text(
+                            elapsedLabel,
+                            style: AppTextStyles.title.copyWith(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppDimensions.spaceLg),
+                  for (final entry in quiz.questions.asMap().entries)
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: AppDimensions.spaceLg),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius:
+                              BorderRadius.circular(AppDimensions.radiusLg),
+                          boxShadow: AppColors.softShadow,
+                          border: Border.all(
+                            color: AppColors.textPrimary.withValues(alpha: 0.05),
+                          ),
                         ),
-                        RadioGroup<int>(
-                          groupValue: selectedAnswers[entry.key],
-                          onChanged: (value) =>
-                              onAnswerChanged(entry.key, value),
+                        child: Padding(
+                          padding: const EdgeInsets.all(AppDimensions.spaceLg),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              for (final option
-                                  in entry.value.options.asMap().entries)
-                                RadioListTile<int>(
-                                  value: option.key,
-                                  title: Text(option.value),
-                                  contentPadding: EdgeInsets.zero,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary.withValues(
+                                        alpha: 0.1,
+                                      ),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Text(
+                                      '${entry.key + 1}',
+                                      style: AppTextStyles.body.copyWith(
+                                        color: AppColors.primary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: AppDimensions.spaceMd),
+                                  Expanded(
+                                    child: Text(
+                                      entry.value.texte,
+                                      style: AppTextStyles.title.copyWith(
+                                        fontSize: 18,
+                                        height: 1.3,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: AppDimensions.spaceLg),
+                              RadioGroup<int>(
+                                groupValue: selectedAnswers[entry.key],
+                                onChanged: (value) =>
+                                    onAnswerChanged(entry.key, value),
+                                child: Column(
+                                  children: [
+                                    for (final option
+                                        in entry.value.options.asMap().entries)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: AppDimensions.spaceSm,
+                                        ),
+                                        child: AnimatedContainer(
+                                          duration: const Duration(
+                                            milliseconds: 200,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              AppDimensions.radiusMd,
+                                            ),
+                                            color: selectedAnswers[entry.key] ==
+                                                    option.key
+                                                ? AppColors.primary.withValues(
+                                                    alpha: 0.05,
+                                                  )
+                                                : Colors.transparent,
+                                            border: Border.all(
+                                              color: selectedAnswers[entry.key] ==
+                                                      option.key
+                                                  ? AppColors.primary
+                                                  : AppColors.textPrimary
+                                                      .withValues(alpha: 0.1),
+                                            ),
+                                          ),
+                                          child: Material(
+                                            color: Colors.transparent,
+                                            child: RadioListTile<int>(
+                                              value: option.key,
+                                              title: Text(
+                                                option.value,
+                                                style: AppTextStyles.body.copyWith(
+                                                  color:
+                                                      selectedAnswers[entry.key] ==
+                                                              option.key
+                                                          ? AppColors.primary
+                                                          : AppColors.textPrimary,
+                                                  fontWeight:
+                                                      selectedAnswers[entry.key] ==
+                                                              option.key
+                                                          ? FontWeight.w600
+                                                          : FontWeight.normal,
+                                                ),
+                                              ),
+                                              activeColor: AppColors.primary,
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        AppDimensions.spaceMd,
+                                                  ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
                                 ),
+                              ),
                             ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
+                  const SizedBox(height: AppDimensions.spaceLg),
+                  ElevatedButton(
+                    onPressed: (allAnswered && !isSubmitting) ? onSubmit : null,
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      backgroundColor: AppColors.primary,
+                    ),
+                    child: isSubmitting
+                        ? const SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 3,
+                            color: Colors.white,
+                          ),
+                        )
+                        : Text(
+                          AppStrings.quizFinishButton,
+                          style: AppTextStyles.title.copyWith(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
                   ),
-                ),
+                  const SizedBox(height: AppDimensions.spaceLg),
+                ],
               ),
-            ElevatedButton(
-              onPressed: (allAnswered && !isSubmitting) ? onSubmit : null,
-              child: isSubmitting
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Text(AppStrings.quizFinishButton),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../domain/question.dart';
 import '../domain/quiz.dart';
 import '../domain/quiz_attempt.dart';
@@ -20,33 +18,28 @@ Map<String, dynamic> questionToMap(Question question) {
   };
 }
 
-// Falls back to DateTime.now() for the brief window right after creation
-// where FieldValue.serverTimestamp() hasn't resolved server-side yet and
-// the field reads back as null (same pattern as post_model.dart).
-Quiz quizFromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
-  final data = doc.data()!;
+Quiz quizFromMap(Map<String, dynamic> data) {
   return Quiz(
-    id: doc.id,
+    id: data['id'] as String,
     titre: data['titre'] as String,
     matiere: data['matiere'] as String,
     questions: (data['questions'] as List)
         .map((question) => _questionFromMap(question as Map<String, dynamic>))
         .toList(),
-    createurId: data['createurId'] as String,
-    timestamp: (data['timestamp'] as Timestamp?)?.toDate() ?? DateTime.now(),
+    createurId: data['createur_id'] as String,
+    timestamp: DateTime.parse(data['created_at'] as String),
   );
 }
 
-QuizAttempt quizAttemptFromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
-  final data = doc.data()!;
+QuizAttempt quizAttemptFromMap(Map<String, dynamic> data) {
   return QuizAttempt(
-    id: doc.id,
-    quizId: data['quizId'] as String,
-    quizTitre: data['quizTitre'] as String,
-    userId: data['userId'] as String,
+    id: data['id'] as String,
+    quizId: data['quiz_id'] as String,
+    quizTitre: data['quiz_titre'] as String,
+    userId: data['user_id'] as String,
     score: data['score'] as int,
-    totalQuestions: data['totalQuestions'] as int,
-    elapsedSeconds: data['elapsedSeconds'] as int,
-    timestamp: (data['timestamp'] as Timestamp?)?.toDate() ?? DateTime.now(),
+    totalQuestions: data['total_questions'] as int,
+    elapsedSeconds: data['elapsed_seconds'] as int,
+    timestamp: DateTime.parse(data['created_at'] as String),
   );
 }

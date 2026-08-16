@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/router/app_routes.dart';
@@ -21,10 +22,11 @@ class FeedScreen extends ConsumerWidget {
         title: const Text(AppStrings.feedTitle),
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list),
+            icon: const Icon(Icons.tune),
             onPressed: () => showModalBottomSheet(
               context: context,
               isScrollControlled: true,
+              backgroundColor: Colors.transparent,
               builder: (context) => const FeedFiltersSheet(),
             ),
           ),
@@ -33,22 +35,31 @@ class FeedScreen extends ConsumerWidget {
       body: postsAsync.when(
         data: (posts) => posts.isEmpty
             ? const Center(child: Text(AppStrings.feedEmptyMessage))
-            : ListView.builder(
-                padding: const EdgeInsets.all(AppDimensions.spaceMd),
-                itemCount: posts.length,
-                itemBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.only(bottom: AppDimensions.spaceMd),
-                  child: PostCard(post: posts[index]),
+            : RefreshIndicator(
+                onRefresh: () async => ref.refresh(feedProvider),
+                color: AppColors.primary,
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(AppDimensions.spaceLg),
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) => Padding(
+                    padding:
+                        const EdgeInsets.only(bottom: AppDimensions.spaceLg),
+                    child: PostCard(post: posts[index]),
+                  ),
                 ),
               ),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(
+          child: CircularProgressIndicator(color: AppColors.primary),
+        ),
         error: (error, stackTrace) =>
             const Center(child: Text(AppStrings.genericError)),
       ),
       floatingActionButton: FloatingActionButton(
+        elevation: 4,
+        backgroundColor: AppColors.primary,
         onPressed: () =>
             context.push('${AppRoutes.feed}/${AppRoutes.createPost}'),
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),
     );
   }

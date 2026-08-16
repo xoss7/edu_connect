@@ -124,13 +124,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: AppRoutes.profile,
                 builder: (context, state) => ProfileScreen(
-                  uid: ref.read(authServiceProvider).currentUser!.uid,
+                  uid: ref.read(authServiceProvider).currentUser!.id,
                 ),
                 routes: [
                   GoRoute(
                     path: AppRoutes.editProfile,
                     builder: (context, state) => EditProfileScreen(
-                      uid: ref.read(authServiceProvider).currentUser!.uid,
+                      uid: ref.read(authServiceProvider).currentUser!.id,
                     ),
                   ),
                 ],

@@ -1,37 +1,30 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/constants/firestore_paths.dart';
 import '../domain/comment.dart';
 import '../domain/post.dart';
 import 'post_model.dart';
 
 class PostRepository {
-  PostRepository(this._firestore);
+  PostRepository(this._supabase);
 
-  final FirebaseFirestore _firestore;
+  final SupabaseClient _supabase;
 
-  CollectionReference<Map<String, dynamic>> get _posts =>
-      _firestore.collection(FirestorePaths.posts);
-
-  CollectionReference<Map<String, dynamic>> _comments(String postId) =>
-      _posts.doc(postId).collection(FirestorePaths.postComments);
-
-  // No server-side filtering here — école/filière/niveau filters are
-  // applied client-side (see feed_providers.dart) since école/filière are
-  // free text and an exact Firestore `where` would silently miss any
-  // case/spelling difference. Keeping the query to a single orderBy also
-  // avoids needing a composite index.
   Stream<List<Post>> watchFeed() {
-    return _posts
-        .orderBy('timestamp', descending: true)
+    return _supabase
+        .from('posts')
+        .stream(primaryKey: ['id'])
+        .order('created_at', ascending: false)
         .limit(50)
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map(postFromDoc).toList());
+        .map((data) => data.map(postFromMap).toList());
   }
 
   Stream<Post> watchPost(String postId) {
-    return _posts.doc(postId).snapshots().map(postFromDoc);
+    return _supabase
+        .from('posts')
+        .stream(primaryKey: ['id'])
+        .eq('id', postId)
+        .map((data) => postFromMap(data.first));
   }
 
   Future<void> createPost({
@@ -41,51 +34,58 @@ class PostRepository {
     required String ecole,
     required String filiere,
     required String niveau,
-  }) {
-    return _posts.add({
-      'auteurId': auteurId,
+  }) async {
+    await _supabase.from('posts').insert({
+      'auteur_id': auteurId,
       'texte': texte,
-      'imageUrl': imageUrl,
+      'image_url': imageUrl,
       'ecole': ecole,
       'filiere': filiere,
       'niveau': niveau,
-      'likedBy': <String>[],
-      'timestamp': FieldValue.serverTimestamp(),
     });
   }
 
-  Future<void> like(String postId, String uid) {
-    return _posts.doc(postId).update({
-      'likedBy': FieldValue.arrayUnion([uid]),
-    });
+  Future<void> like(String postId, String uid) async {
+    // In SQL, we handle array union differently
+    final post = await _supabase.from('posts').select('liked_by').eq('id', postId).single();
+    final likedBy = List<String>.from(post['liked_by'] as List);
+    if (!likedBy.contains(uid)) {
+      likedBy.add(uid);
+      await _supabase.from('posts').update({'liked_by': likedBy}).eq('id', postId);
+    }
   }
 
-  Future<void> unlike(String postId, String uid) {
-    return _posts.doc(postId).update({
-      'likedBy': FieldValue.arrayRemove([uid]),
-    });
+  Future<void> unlike(String postId, String uid) async {
+    final post = await _supabase.from('posts').select('liked_by').eq('id', postId).single();
+    final likedBy = List<String>.from(post['liked_by'] as List);
+    if (likedBy.contains(uid)) {
+      likedBy.remove(uid);
+      await _supabase.from('posts').update({'liked_by': likedBy}).eq('id', postId);
+    }
   }
 
   Stream<List<Comment>> watchComments(String postId) {
-    return _comments(postId)
-        .orderBy('timestamp')
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map(commentFromDoc).toList());
+    return _supabase
+        .from('comments')
+        .stream(primaryKey: ['id'])
+        .eq('post_id', postId)
+        .order('created_at', ascending: true)
+        .map((data) => data.map(commentFromMap).toList());
   }
 
   Future<void> addComment(
     String postId, {
     required String auteurId,
     required String texte,
-  }) {
-    return _comments(postId).add({
-      'auteurId': auteurId,
+  }) async {
+    await _supabase.from('comments').insert({
+      'post_id': postId,
+      'auteur_id': auteurId,
       'texte': texte,
-      'timestamp': FieldValue.serverTimestamp(),
     });
   }
 }
 
 final postRepositoryProvider = Provider<PostRepository>((ref) {
-  return PostRepository(FirebaseFirestore.instance);
+  return PostRepository(Supabase.instance.client);
 });

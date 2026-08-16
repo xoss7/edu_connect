@@ -23,7 +23,7 @@ class AddCommentController extends AsyncNotifier<void> {
   Future<void> submit({required String postId, required String texte}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final uid = ref.read(authServiceProvider).currentUser!.uid;
+      final uid = ref.read(authServiceProvider).currentUser!.id;
       await ref
           .read(postRepositoryProvider)
           .addComment(postId, auteurId: uid, texte: texte);

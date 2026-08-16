@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/services/auth_service.dart';
@@ -17,15 +17,19 @@ class CreateQuizController extends AsyncNotifier<void> {
   }) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final uid = ref.read(authServiceProvider).currentUser!.uid;
-      await ref
-          .read(quizRepositoryProvider)
-          .createQuiz(
-            createurId: uid,
-            titre: titre,
-            matiere: matiere,
-            questions: questions,
-          );
+      final uid = ref.read(authServiceProvider).currentUser!.id;
+      try {
+        await ref.read(quizRepositoryProvider).createQuiz(
+          createurId: uid,
+          titre: titre,
+          matiere: matiere,
+          questions: questions,
+        );
+      } catch (e, st) {
+        debugPrint('Error creating quiz: $e');
+        debugPrint(st.toString());
+        rethrow;
+      }
     });
   }
 }

@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/services/auth_service.dart';
@@ -9,22 +9,24 @@ class AuthRepository {
   final AuthService _authService;
 
   Future<User> signIn({required String email, required String password}) async {
-    final credential = await _authService.signIn(
+    final response = await _authService.signIn(
       email: email,
       password: password,
     );
-    return credential.user!;
+    return response.user!;
   }
 
   Future<User> register({
     required String email,
     required String password,
+    required String nom,
   }) async {
-    final credential = await _authService.register(
+    final response = await _authService.register(
       email: email,
       password: password,
+      nom: nom,
     );
-    return credential.user!;
+    return response.user!;
   }
 
   Future<void> signOut() => _authService.signOut();

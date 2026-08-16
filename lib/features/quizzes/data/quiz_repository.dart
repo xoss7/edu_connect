@@ -1,33 +1,31 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/constants/firestore_paths.dart';
 import '../domain/question.dart';
 import '../domain/quiz.dart';
 import '../domain/quiz_attempt.dart';
 import 'quiz_model.dart';
 
 class QuizRepository {
-  QuizRepository(this._firestore);
+  QuizRepository(this._supabase);
 
-  final FirebaseFirestore _firestore;
-
-  CollectionReference<Map<String, dynamic>> get _quizzes =>
-      _firestore.collection(FirestorePaths.quizzes);
-
-  CollectionReference<Map<String, dynamic>> get _quizAttempts =>
-      _firestore.collection(FirestorePaths.quizAttempts);
+  final SupabaseClient _supabase;
 
   Stream<List<Quiz>> watchQuizzes() {
-    return _quizzes
-        .orderBy('timestamp', descending: true)
+    return _supabase
+        .from('quizzes')
+        .stream(primaryKey: ['id'])
+        .order('created_at', ascending: false)
         .limit(50)
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map(quizFromDoc).toList());
+        .map((data) => data.map(quizFromMap).toList());
   }
 
   Stream<Quiz> watchQuiz(String quizId) {
-    return _quizzes.doc(quizId).snapshots().map(quizFromDoc);
+    return _supabase
+        .from('quizzes')
+        .stream(primaryKey: ['id'])
+        .eq('id', quizId)
+        .map((data) => quizFromMap(data.first));
   }
 
   Future<void> createQuiz({
@@ -35,25 +33,22 @@ class QuizRepository {
     required String titre,
     required String matiere,
     required List<Question> questions,
-  }) {
-    return _quizzes.add({
-      'createurId': createurId,
+  }) async {
+    await _supabase.from('quizzes').insert({
+      'createur_id': createurId,
       'titre': titre,
       'matiere': matiere,
       'questions': questions.map(questionToMap).toList(),
-      'timestamp': FieldValue.serverTimestamp(),
     });
   }
 
-  // Plain equality filter + orderBy on a different field — Firestore
-  // handles this with automatic single-field indexes, no composite index
-  // needed (unlike a range filter combined with a different orderBy).
   Stream<List<QuizAttempt>> watchAttemptsForUser(String uid) {
-    return _quizAttempts
-        .where('userId', isEqualTo: uid)
-        .orderBy('timestamp', descending: true)
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map(quizAttemptFromDoc).toList());
+    return _supabase
+        .from('quiz_attempts')
+        .stream(primaryKey: ['id'])
+        .eq('user_id', uid)
+        .order('created_at', ascending: false)
+        .map((data) => data.map(quizAttemptFromMap).toList());
   }
 
   Future<void> submitAttempt({
@@ -63,19 +58,18 @@ class QuizRepository {
     required int score,
     required int totalQuestions,
     required int elapsedSeconds,
-  }) {
-    return _quizAttempts.add({
-      'quizId': quizId,
-      'quizTitre': quizTitre,
-      'userId': userId,
+  }) async {
+    await _supabase.from('quiz_attempts').insert({
+      'quiz_id': quizId,
+      'quiz_titre': quizTitre,
+      'user_id': userId,
       'score': score,
-      'totalQuestions': totalQuestions,
-      'elapsedSeconds': elapsedSeconds,
-      'timestamp': FieldValue.serverTimestamp(),
+      'total_questions': totalQuestions,
+      'elapsed_seconds': elapsedSeconds,
     });
   }
 }
 
 final quizRepositoryProvider = Provider<QuizRepository>((ref) {
-  return QuizRepository(FirebaseFirestore.instance);
+  return QuizRepository(Supabase.instance.client);
 });

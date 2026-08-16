@@ -26,10 +26,11 @@ class RegisterController extends AsyncNotifier<void> {
       final user = await authRepository.register(
         email: email,
         password: password,
+        nom: nom,
       );
 
       final student = Student(
-        uid: user.uid,
+        uid: user.id,
         nom: nom,
         ecole: ecole,
         filiere: filiere,
