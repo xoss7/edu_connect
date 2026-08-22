@@ -103,6 +103,13 @@ class AppStrings {
   static const String quizAttemptsEmptyMessage =
       'Aucune tentative pour l\'instant';
 
+  // Messaging
+  static const String messagesTitle = 'Messages';
+  static const String messagesEmptyMessage =
+      'Aucune conversation pour l\'instant';
+  static const String messageInputHint = 'Écrire un message...';
+  static const String messageButtonTooltip = 'Message';
+
   // Relative time
   static const String timeJustNow = 'À l\'instant';
   static const String timeMinutesSuffix = 'min';
