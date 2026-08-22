@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/services/auth_service.dart';
+import '../../../messaging/data/conversation_repository.dart';
 import '../../data/project_repository.dart';
 import '../../domain/project_match.dart';
 
@@ -52,6 +53,25 @@ class ProjectActionsController extends AsyncNotifier<void> {
       await ref
           .read(projectRepositoryProvider)
           .updateMatchStatus(matchId, status);
+    });
+  }
+
+  // Only the project's author can accept a candidate (enforced by the
+  // caller only showing this action to the author), so the current uid is
+  // always one side of the new conversation.
+  Future<void> acceptMatch({
+    required String matchId,
+    required String otherUserId,
+  }) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      await ref
+          .read(projectRepositoryProvider)
+          .updateMatchStatus(matchId, MatchStatut.accepte);
+      final uid = ref.read(authServiceProvider).currentUser!.id;
+      await ref
+          .read(conversationRepositoryProvider)
+          .getOrCreateConversation(uidA: uid, uidB: otherUserId);
     });
   }
 }
