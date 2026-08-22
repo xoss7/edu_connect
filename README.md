@@ -43,23 +43,3 @@ Le détail complet du cahier des charges se trouve dans `SPEC.md`.
 - Architecture feature first : chaque fonctionnalité vit dans
   `lib/features/<nom>/` avec ses propres couches `domain`, `data` et
   `presentation`, et le code partagé se trouve dans `lib/core/`.
-
-## Démarrer le projet
-
-```
-flutter pub get
-flutter run
-```
-
-Le schéma de la base de données (tables et policies RLS) est configuré
-directement dans le dashboard Supabase et n'est pas versionné dans ce
-dépôt. Sans ces tables et policies, l'application ne pourra ni lire ni
-écrire de données.
-
-## Commandes utiles
-
-```
-flutter analyze     # doit être sans warning avant de terminer une tâche
-dart format .       # avant chaque commit
-flutter test        # lancer les tests
-```
