@@ -10,7 +10,10 @@ class ProfileRepository {
   final SupabaseClient _supabase;
 
   Future<void> createProfile(Student student) async {
-    await _supabase.from('profiles').update(studentToMap(student)).eq('id', student.uid);
+    await _supabase
+        .from('profiles')
+        .update(studentToMap(student))
+        .eq('id', student.uid);
   }
 
   Future<Student> getProfile(String uid) async {

@@ -26,9 +26,12 @@ final projectsForYouProvider = Provider<AsyncValue<List<Project>>>((ref) {
   );
 });
 
-final projectMatchesProvider = StreamProvider.family<List<ProjectMatch>, String>((ref, projectId) {
-  return ref.watch(projectRepositoryProvider).watchMatchesForProject(projectId);
-});
+final projectMatchesProvider =
+    StreamProvider.family<List<ProjectMatch>, String>((ref, projectId) {
+      return ref
+          .watch(projectRepositoryProvider)
+          .watchMatchesForProject(projectId);
+    });
 
 final userApplicationsProvider = StreamProvider<List<ProjectMatch>>((ref) {
   final user = ref.watch(authServiceProvider).currentUser;

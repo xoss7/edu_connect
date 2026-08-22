@@ -108,8 +108,9 @@ class PostCard extends ConsumerWidget {
                         if (progress == null) return child;
                         return Container(
                           color: AppColors.surfaceVariant,
-                          child:
-                              const Center(child: CircularProgressIndicator()),
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         );
                       },
                       errorBuilder: (context, error, stackTrace) => Container(
@@ -194,10 +195,8 @@ class _ActionButton extends StatelessWidget {
           children: [
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) => ScaleTransition(
-                scale: animation,
-                child: child,
-              ),
+              transitionBuilder: (child, animation) =>
+                  ScaleTransition(scale: animation, child: child),
               child: Icon(icon, key: ValueKey(icon), color: color, size: 20),
             ),
             const SizedBox(width: 4),

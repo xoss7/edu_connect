@@ -24,21 +24,26 @@ class UploadResourceController extends AsyncNotifier<void> {
 
       try {
         debugPrint('Uploading file to storage...');
-        final fileUrl = await ref.read(storageServiceProvider).uploadFile(
-          path: 'resources/$uid/${DateTime.now().millisecondsSinceEpoch}.pdf',
-          file: file,
-        );
+        final fileUrl = await ref
+            .read(storageServiceProvider)
+            .uploadFile(
+              path:
+                  'resources/$uid/${DateTime.now().millisecondsSinceEpoch}.pdf',
+              file: file,
+            );
         debugPrint('File uploaded: $fileUrl');
 
         debugPrint('Creating resource record in database...');
-        await ref.read(resourceRepositoryProvider).createResource(
-          uploaderId: uid,
-          titre: titre,
-          matiere: matiere,
-          ecole: ecole,
-          niveau: niveau,
-          fileUrl: fileUrl,
-        );
+        await ref
+            .read(resourceRepositoryProvider)
+            .createResource(
+              uploaderId: uid,
+              titre: titre,
+              matiere: matiere,
+              ecole: ecole,
+              niveau: niveau,
+              fileUrl: fileUrl,
+            );
         debugPrint('Resource record created.');
       } catch (e, st) {
         debugPrint('Error uploading resource: $e');

@@ -42,8 +42,9 @@ class FeedScreen extends ConsumerWidget {
                   padding: const EdgeInsets.all(AppDimensions.spaceLg),
                   itemCount: posts.length,
                   itemBuilder: (context, index) => Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: AppDimensions.spaceLg),
+                    padding: const EdgeInsets.only(
+                      bottom: AppDimensions.spaceLg,
+                    ),
                     child: PostCard(post: posts[index]),
                   ),
                 ),

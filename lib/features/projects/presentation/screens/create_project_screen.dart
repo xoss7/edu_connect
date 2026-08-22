@@ -9,7 +9,8 @@ class CreateProjectScreen extends ConsumerStatefulWidget {
   const CreateProjectScreen({super.key});
 
   @override
-  ConsumerState<CreateProjectScreen> createState() => _CreateProjectScreenState();
+  ConsumerState<CreateProjectScreen> createState() =>
+      _CreateProjectScreenState();
 }
 
 class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
@@ -29,25 +30,32 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
     if (!_formKey.currentState!.validate()) return;
     if (_competences.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Ajoute au moins une compétence recherchée.")),
+        const SnackBar(
+          content: Text("Ajoute au moins une compétence recherchée."),
+        ),
       );
       return;
     }
 
-    ref.read(projectActionsControllerProvider.notifier).createProject(
-      titre: _titreController.text.trim(),
-      description: _descriptionController.text.trim(),
-      competences: _competences,
-    );
+    ref
+        .read(projectActionsControllerProvider.notifier)
+        .createProject(
+          titre: _titreController.text.trim(),
+          description: _descriptionController.text.trim(),
+          competences: _competences,
+        );
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue<void>>(projectActionsControllerProvider, (prev, next) {
+    ref.listen<AsyncValue<void>>(projectActionsControllerProvider, (
+      prev,
+      next,
+    ) {
       if (next.hasError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text(AppStrings.genericError)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text(AppStrings.genericError)));
       } else if (prev?.isLoading == true && !next.isLoading) {
         Navigator.of(context).pop();
       }
@@ -67,8 +75,12 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
               children: [
                 TextFormField(
                   controller: _titreController,
-                  decoration: const InputDecoration(labelText: "Titre du projet"),
-                  validator: (v) => (v == null || v.isEmpty) ? AppStrings.validationRequired : null,
+                  decoration: const InputDecoration(
+                    labelText: "Titre du projet",
+                  ),
+                  validator: (v) => (v == null || v.isEmpty)
+                      ? AppStrings.validationRequired
+                      : null,
                 ),
                 const SizedBox(height: AppDimensions.spaceMd),
                 TextFormField(
@@ -78,7 +90,9 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
                     alignLabelWithHint: true,
                   ),
                   maxLines: 5,
-                  validator: (v) => (v == null || v.isEmpty) ? AppStrings.validationRequired : null,
+                  validator: (v) => (v == null || v.isEmpty)
+                      ? AppStrings.validationRequired
+                      : null,
                 ),
                 const SizedBox(height: AppDimensions.spaceLg),
                 Text(

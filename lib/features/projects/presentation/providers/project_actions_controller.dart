@@ -19,12 +19,14 @@ class ProjectActionsController extends AsyncNotifier<void> {
       final uid = ref.read(authServiceProvider).currentUser!.id;
       try {
         debugPrint('Creating project in Supabase...');
-        await ref.read(projectRepositoryProvider).createProject(
-          auteurId: uid,
-          titre: titre,
-          description: description,
-          competences: competences,
-        );
+        await ref
+            .read(projectRepositoryProvider)
+            .createProject(
+              auteurId: uid,
+              titre: titre,
+              description: description,
+              competences: competences,
+            );
         debugPrint('Project created successfully.');
       } catch (e, st) {
         debugPrint('Error creating project: $e');
@@ -38,20 +40,23 @@ class ProjectActionsController extends AsyncNotifier<void> {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final uid = ref.read(authServiceProvider).currentUser!.id;
-      await ref.read(projectRepositoryProvider).applyToProject(
-        projectId: projectId,
-        candidateId: uid,
-      );
+      await ref
+          .read(projectRepositoryProvider)
+          .applyToProject(projectId: projectId, candidateId: uid);
     });
   }
 
   Future<void> updateMatchStatus(String matchId, MatchStatut status) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      await ref.read(projectRepositoryProvider).updateMatchStatus(matchId, status);
+      await ref
+          .read(projectRepositoryProvider)
+          .updateMatchStatus(matchId, status);
     });
   }
 }
 
 final projectActionsControllerProvider =
-    AsyncNotifierProvider<ProjectActionsController, void>(ProjectActionsController.new);
+    AsyncNotifierProvider<ProjectActionsController, void>(
+      ProjectActionsController.new,
+    );

@@ -11,7 +11,8 @@ Future<void> main() async {
 
   await Supabase.initialize(
     url: 'https://uffloevyvjcmpcrpkmgk.supabase.co',
-    publishableKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmZmxvZXZ5dmpjbXBjcnBrbWdrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzMTA2MjUsImV4cCI6MjEwMTg4NjYyNX0.zZ1GyaoPfy7PLqbMrnwsu9GuWAedLKN9DdAzbb3R0M8',
+    publishableKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmZmxvZXZ5dmpjbXBjcnBrbWdrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzMTA2MjUsImV4cCI6MjEwMTg4NjYyNX0.zZ1GyaoPfy7PLqbMrnwsu9GuWAedLKN9DdAzbb3R0M8',
   );
 
   runApp(const ProviderScope(child: MyApp()));

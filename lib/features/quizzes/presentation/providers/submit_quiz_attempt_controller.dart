@@ -19,14 +19,16 @@ class SubmitQuizAttemptController extends AsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       final uid = ref.read(authServiceProvider).currentUser!.id;
       try {
-        await ref.read(quizRepositoryProvider).submitAttempt(
-          quizId: quiz.id,
-          quizTitre: quiz.titre,
-          userId: uid,
-          score: score,
-          totalQuestions: quiz.questions.length,
-          elapsedSeconds: elapsedSeconds,
-        );
+        await ref
+            .read(quizRepositoryProvider)
+            .submitAttempt(
+              quizId: quiz.id,
+              quizTitre: quiz.titre,
+              userId: uid,
+              score: score,
+              totalQuestions: quiz.questions.length,
+              elapsedSeconds: elapsedSeconds,
+            );
       } catch (e, st) {
         debugPrint('Error submitting quiz attempt: $e');
         debugPrint(st.toString());

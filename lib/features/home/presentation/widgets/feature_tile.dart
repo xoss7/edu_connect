@@ -42,10 +42,7 @@ class FeatureTile extends StatelessWidget {
               height: isLarge ? 160 : 110, // Increased sizes from 120/80
               child: Center(
                 child: assetPath != null
-                    ? Image.asset(
-                        assetPath!,
-                        fit: BoxFit.contain,
-                      )
+                    ? Image.asset(assetPath!, fit: BoxFit.contain)
                     : Icon(
                         icon,
                         color: AppColors.primary,

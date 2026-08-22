@@ -37,14 +37,23 @@ class ProjectCard extends ConsumerWidget {
                   Expanded(
                     child: Text(
                       authorAsync.value?.nom ?? 'Étudiant',
-                      style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.bold),
+                      style: AppTextStyles.caption.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
-                      color: project.isOuvert ? Colors.green.withValues(alpha: 0.1) : Colors.red.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusSm),
+                      color: project.isOuvert
+                          ? Colors.green.withValues(alpha: 0.1)
+                          : Colors.red.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusSm,
+                      ),
                     ),
                     child: Text(
                       project.statut.toUpperCase(),
@@ -60,14 +69,18 @@ class ProjectCard extends ConsumerWidget {
               const SizedBox(height: AppDimensions.spaceMd),
               Text(
                 project.titre,
-                style: AppTextStyles.title.copyWith(fontWeight: FontWeight.bold),
+                style: AppTextStyles.title.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: AppDimensions.spaceXs),
               Text(
                 project.description,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+                style: AppTextStyles.body.copyWith(
+                  color: AppColors.textSecondary,
+                ),
               ),
               const SizedBox(height: AppDimensions.spaceMd),
               Wrap(

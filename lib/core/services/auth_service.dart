@@ -14,10 +14,7 @@ class AuthService {
     required String email,
     required String password,
   }) {
-    return _supabase.auth.signInWithPassword(
-      email: email,
-      password: password,
-    );
+    return _supabase.auth.signInWithPassword(email: email, password: password);
   }
 
   Future<AuthResponse> register({

@@ -157,8 +157,9 @@ class _TakeQuizBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSubmitting =
-        ref.watch(submitQuizAttemptControllerProvider).isLoading;
+    final isSubmitting = ref
+        .watch(submitQuizAttemptControllerProvider)
+        .isLoading;
     final answeredCount = selectedAnswers.where((a) => a != null).length;
     final progress = answeredCount / quiz.questions.length;
     final allAnswered = answeredCount == quiz.questions.length;
@@ -186,8 +187,9 @@ class _TakeQuizBody extends ConsumerWidget {
                       ),
                       decoration: BoxDecoration(
                         color: AppColors.surface,
-                        borderRadius:
-                            BorderRadius.circular(AppDimensions.radiusPill),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusPill,
+                        ),
                         boxShadow: AppColors.softShadow,
                       ),
                       child: Row(
@@ -212,16 +214,20 @@ class _TakeQuizBody extends ConsumerWidget {
                   const SizedBox(height: AppDimensions.spaceLg),
                   for (final entry in quiz.questions.asMap().entries)
                     Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: AppDimensions.spaceLg),
+                      padding: const EdgeInsets.only(
+                        bottom: AppDimensions.spaceLg,
+                      ),
                       child: Container(
                         decoration: BoxDecoration(
                           color: AppColors.surface,
-                          borderRadius:
-                              BorderRadius.circular(AppDimensions.radiusLg),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusLg,
+                          ),
                           boxShadow: AppColors.softShadow,
                           border: Border.all(
-                            color: AppColors.textPrimary.withValues(alpha: 0.05),
+                            color: AppColors.textPrimary.withValues(
+                              alpha: 0.05,
+                            ),
                           ),
                         ),
                         child: Padding(
@@ -281,18 +287,20 @@ class _TakeQuizBody extends ConsumerWidget {
                                             borderRadius: BorderRadius.circular(
                                               AppDimensions.radiusMd,
                                             ),
-                                            color: selectedAnswers[entry.key] ==
+                                            color:
+                                                selectedAnswers[entry.key] ==
                                                     option.key
                                                 ? AppColors.primary.withValues(
                                                     alpha: 0.05,
                                                   )
                                                 : Colors.transparent,
                                             border: Border.all(
-                                              color: selectedAnswers[entry.key] ==
+                                              color:
+                                                  selectedAnswers[entry.key] ==
                                                       option.key
                                                   ? AppColors.primary
                                                   : AppColors.textPrimary
-                                                      .withValues(alpha: 0.1),
+                                                        .withValues(alpha: 0.1),
                                             ),
                                           ),
                                           child: Material(
@@ -301,18 +309,22 @@ class _TakeQuizBody extends ConsumerWidget {
                                               value: option.key,
                                               title: Text(
                                                 option.value,
-                                                style: AppTextStyles.body.copyWith(
-                                                  color:
-                                                      selectedAnswers[entry.key] ==
+                                                style: AppTextStyles.body
+                                                    .copyWith(
+                                                      color:
+                                                          selectedAnswers[entry
+                                                                  .key] ==
                                                               option.key
                                                           ? AppColors.primary
-                                                          : AppColors.textPrimary,
-                                                  fontWeight:
-                                                      selectedAnswers[entry.key] ==
+                                                          : AppColors
+                                                                .textPrimary,
+                                                      fontWeight:
+                                                          selectedAnswers[entry
+                                                                  .key] ==
                                                               option.key
                                                           ? FontWeight.w600
                                                           : FontWeight.normal,
-                                                ),
+                                                    ),
                                               ),
                                               activeColor: AppColors.primary,
                                               contentPadding:
@@ -341,20 +353,20 @@ class _TakeQuizBody extends ConsumerWidget {
                     ),
                     child: isSubmitting
                         ? const SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 3,
-                            color: Colors.white,
-                          ),
-                        )
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3,
+                              color: Colors.white,
+                            ),
+                          )
                         : Text(
-                          AppStrings.quizFinishButton,
-                          style: AppTextStyles.title.copyWith(
-                            color: Colors.white,
-                            fontSize: 16,
+                            AppStrings.quizFinishButton,
+                            style: AppTextStyles.title.copyWith(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
                           ),
-                        ),
                   ),
                   const SizedBox(height: AppDimensions.spaceLg),
                 ],

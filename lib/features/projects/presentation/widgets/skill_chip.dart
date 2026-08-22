@@ -4,11 +4,7 @@ import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_text_styles.dart';
 
 class SkillChip extends StatelessWidget {
-  const SkillChip({
-    required this.label,
-    this.isSelected = false,
-    super.key,
-  });
+  const SkillChip({required this.label, this.isSelected = false, super.key});
 
   final String label;
   final bool isSelected;
@@ -21,14 +17,12 @@ class SkillChip extends StatelessWidget {
         vertical: AppDimensions.spaceXs,
       ),
       decoration: BoxDecoration(
-        color: isSelected 
-          ? AppColors.primary.withValues(alpha: 0.1) 
-          : AppColors.surfaceVariant,
+        color: isSelected
+            ? AppColors.primary.withValues(alpha: 0.1)
+            : AppColors.surfaceVariant,
         borderRadius: BorderRadius.circular(AppDimensions.radiusPill),
         border: Border.all(
-          color: isSelected 
-            ? AppColors.primary 
-            : Colors.transparent,
+          color: isSelected ? AppColors.primary : Colors.transparent,
           width: 1,
         ),
       ),
