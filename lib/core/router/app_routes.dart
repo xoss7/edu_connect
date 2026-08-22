@@ -31,4 +31,7 @@ class AppRoutes {
   // '/quizzes/:quizId'.
   static const String createQuiz = 'create';
   static const String takeQuiz = ':quizId';
+
+  // Relative to [messages] — full path is '/messages/:conversationId'.
+  static const String conversationDetail = ':conversationId';
 }

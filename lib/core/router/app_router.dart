@@ -7,6 +7,8 @@ import '../../features/auth/presentation/providers/register_controller.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/messaging/presentation/screens/chat_screen.dart';
+import '../../features/messaging/presentation/screens/conversations_screen.dart';
 import '../../features/posts/presentation/screens/create_post_screen.dart';
 import '../../features/posts/presentation/screens/feed_screen.dart';
 import '../../features/posts/presentation/screens/post_detail_screen.dart';
@@ -137,8 +139,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRoutes.messages,
-                builder: (context, state) =>
-                    const Center(child: Text("Messages (Bientôt)")),
+                builder: (context, state) => const ConversationsScreen(),
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.conversationDetail,
+                    builder: (context, state) => ChatScreen(
+                      conversationId: state.pathParameters['conversationId']!,
+                      otherParticipantId: state.extra as String?,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
