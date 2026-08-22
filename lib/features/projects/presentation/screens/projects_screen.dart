@@ -36,7 +36,8 @@ class ProjectsScreen extends ConsumerWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => context.push('${AppRoutes.projects}/${AppRoutes.createProject}'),
+          onPressed: () =>
+              context.push('${AppRoutes.projects}/${AppRoutes.createProject}'),
           child: const Icon(Icons.add),
         ),
       ),
@@ -51,7 +52,9 @@ class _ProjectList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final projectsAsync = ref.watch(isForYou ? projectsForYouProvider : allProjectsProvider);
+    final projectsAsync = ref.watch(
+      isForYou ? projectsForYouProvider : allProjectsProvider,
+    );
 
     return projectsAsync.when(
       data: (projects) => projects.isEmpty
@@ -59,12 +62,20 @@ class _ProjectList extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.folder_open_outlined, size: 64, color: AppColors.textSecondary),
+                  const Icon(
+                    Icons.folder_open_outlined,
+                    size: 64,
+                    color: AppColors.textSecondary,
+                  ),
                   const SizedBox(height: AppDimensions.spaceMd),
                   Text(
-                    isForYou ? "Aucun projet ne match avec tes compétences." : "Aucun projet publié pour le moment.",
+                    isForYou
+                        ? "Aucun projet ne match avec tes compétences."
+                        : "Aucun projet publié pour le moment.",
                     textAlign: TextAlign.center,
-                    style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+                    style: AppTextStyles.body.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
                   ),
                 ],
               ),
@@ -76,7 +87,9 @@ class _ProjectList extends ConsumerWidget {
                 padding: const EdgeInsets.only(bottom: AppDimensions.spaceMd),
                 child: ProjectCard(
                   project: projects[index],
-                  onTap: () => context.push('${AppRoutes.projects}/${projects[index].id}'),
+                  onTap: () => context.push(
+                    '${AppRoutes.projects}/${projects[index].id}',
+                  ),
                 ),
               ),
             ),

@@ -85,8 +85,10 @@ class ProjectDetailScreen extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (e, st) => const Scaffold(body: Center(child: Text(AppStrings.genericError))),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (e, st) =>
+          const Scaffold(body: Center(child: Text(AppStrings.genericError))),
     );
   }
 }
@@ -112,11 +114,18 @@ class _ApplyButton extends ConsumerWidget {
         return ElevatedButton(
           onPressed: isLoading
               ? null
-              : () => ref.read(projectActionsControllerProvider.notifier).applyToProject(projectId),
-          child: isLoading ? const CircularProgressIndicator() : const Text("Postuler pour rejoindre l'équipe"),
+              : () => ref
+                    .read(projectActionsControllerProvider.notifier)
+                    .applyToProject(projectId),
+          child: isLoading
+              ? const CircularProgressIndicator()
+              : const Text("Postuler pour rejoindre l'équipe"),
         );
       },
-      loading: () => const ElevatedButton(onPressed: null, child: CircularProgressIndicator()),
+      loading: () => const ElevatedButton(
+        onPressed: null,
+        child: CircularProgressIndicator(),
+      ),
       error: (_, __) => const SizedBox(),
     );
   }
@@ -134,7 +143,10 @@ class _ApplicantList extends ConsumerWidget {
       data: (matches) => matches.isEmpty
           ? const Padding(
               padding: EdgeInsets.symmetric(vertical: 20),
-              child: Text("Aucune candidature pour le moment.", textAlign: TextAlign.center),
+              child: Text(
+                "Aucune candidature pour le moment.",
+                textAlign: TextAlign.center,
+              ),
             )
           : ListView.builder(
               shrinkWrap: true,
@@ -142,9 +154,14 @@ class _ApplicantList extends ConsumerWidget {
               itemCount: matches.length,
               itemBuilder: (context, index) {
                 final match = matches[index];
-                final candidateAsync = ref.watch(studentProvider(match.candidateId));
+                final candidateAsync = ref.watch(
+                  studentProvider(match.candidateId),
+                );
                 return ListTile(
-                  leading: InitialsAvatar(name: candidateAsync.value?.nom ?? '', radius: 16),
+                  leading: InitialsAvatar(
+                    name: candidateAsync.value?.nom ?? '',
+                    radius: 16,
+                  ),
                   title: Text(candidateAsync.value?.nom ?? 'Candidat'),
                   subtitle: Text("Statut: ${match.statut.value}"),
                   trailing: match.statut.value == 'en_attente'
@@ -152,16 +169,29 @@ class _ApplicantList extends ConsumerWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                              icon: const Icon(Icons.check, color: Colors.green),
+                              icon: const Icon(
+                                Icons.check,
+                                color: Colors.green,
+                              ),
                               onPressed: () => ref
-                                  .read(projectActionsControllerProvider.notifier)
-                                  .updateMatchStatus(match.id, MatchStatut.accepte),
+                                  .read(
+                                    projectActionsControllerProvider.notifier,
+                                  )
+                                  .updateMatchStatus(
+                                    match.id,
+                                    MatchStatut.accepte,
+                                  ),
                             ),
                             IconButton(
                               icon: const Icon(Icons.close, color: Colors.red),
                               onPressed: () => ref
-                                  .read(projectActionsControllerProvider.notifier)
-                                  .updateMatchStatus(match.id, MatchStatut.refuse),
+                                  .read(
+                                    projectActionsControllerProvider.notifier,
+                                  )
+                                  .updateMatchStatus(
+                                    match.id,
+                                    MatchStatut.refuse,
+                                  ),
                             ),
                           ],
                         )

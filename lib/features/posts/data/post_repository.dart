@@ -47,20 +47,34 @@ class PostRepository {
 
   Future<void> like(String postId, String uid) async {
     // In SQL, we handle array union differently
-    final post = await _supabase.from('posts').select('liked_by').eq('id', postId).single();
+    final post = await _supabase
+        .from('posts')
+        .select('liked_by')
+        .eq('id', postId)
+        .single();
     final likedBy = List<String>.from(post['liked_by'] as List);
     if (!likedBy.contains(uid)) {
       likedBy.add(uid);
-      await _supabase.from('posts').update({'liked_by': likedBy}).eq('id', postId);
+      await _supabase
+          .from('posts')
+          .update({'liked_by': likedBy})
+          .eq('id', postId);
     }
   }
 
   Future<void> unlike(String postId, String uid) async {
-    final post = await _supabase.from('posts').select('liked_by').eq('id', postId).single();
+    final post = await _supabase
+        .from('posts')
+        .select('liked_by')
+        .eq('id', postId)
+        .single();
     final likedBy = List<String>.from(post['liked_by'] as List);
     if (likedBy.contains(uid)) {
       likedBy.remove(uid);
-      await _supabase.from('posts').update({'liked_by': likedBy}).eq('id', postId);
+      await _supabase
+          .from('posts')
+          .update({'liked_by': likedBy})
+          .eq('id', postId);
     }
   }
 

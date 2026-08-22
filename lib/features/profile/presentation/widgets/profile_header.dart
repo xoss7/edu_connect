@@ -36,7 +36,7 @@ class ProfileHeader extends StatelessWidget {
             InitialsAvatar(
               name: student.nom,
               radius: 44,
-              // Assuming InitialsAvatar allows color/style customization, 
+              // Assuming InitialsAvatar allows color/style customization,
               // otherwise the Stack gives a nice border effect.
             ),
           ],
@@ -51,7 +51,10 @@ class ProfileHeader extends StatelessWidget {
         ),
         const SizedBox(height: AppDimensions.spaceSm),
         TweenAnimationBuilder<double>(
-          tween: Tween<double>(begin: 0, end: student.reputationScore.toDouble()),
+          tween: Tween<double>(
+            begin: 0,
+            end: student.reputationScore.toDouble(),
+          ),
           duration: const Duration(seconds: 1),
           curve: Curves.easeOutCubic,
           builder: (context, value, child) {
@@ -70,7 +73,11 @@ class ProfileHeader extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.stars_rounded, color: AppColors.secondary, size: 20),
+                  const Icon(
+                    Icons.stars_rounded,
+                    color: AppColors.secondary,
+                    size: 20,
+                  ),
                   const SizedBox(width: AppDimensions.spaceSm),
                   Text(
                     '${value.toInt()} Points',

@@ -68,9 +68,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: AppRoutes.postDetail,
-            builder: (context, state) => PostDetailScreen(
-              postId: state.pathParameters['postId']!,
-            ),
+            builder: (context, state) =>
+                PostDetailScreen(postId: state.pathParameters['postId']!),
           ),
         ],
       ),
@@ -138,7 +137,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRoutes.messages,
-                builder: (context, state) => const Center(child: Text("Messages (Bientôt)")),
+                builder: (context, state) =>
+                    const Center(child: Text("Messages (Bientôt)")),
               ),
             ],
           ),

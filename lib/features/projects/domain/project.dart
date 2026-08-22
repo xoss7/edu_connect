@@ -22,8 +22,8 @@ class Project {
   bool matchesSkills(List<String> userSkills) {
     if (competencesRecherchees.isEmpty) return true;
     final userSkillsLower = userSkills.map((s) => s.toLowerCase()).toSet();
-    return competencesRecherchees.any((skill) => 
-      userSkillsLower.contains(skill.toLowerCase())
+    return competencesRecherchees.any(
+      (skill) => userSkillsLower.contains(skill.toLowerCase()),
     );
   }
 }
