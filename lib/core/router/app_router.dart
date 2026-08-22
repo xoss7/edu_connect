@@ -7,6 +7,8 @@ import '../../features/auth/presentation/providers/register_controller.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/messaging/presentation/screens/chat_screen.dart';
+import '../../features/messaging/presentation/screens/conversations_screen.dart';
 import '../../features/posts/presentation/screens/create_post_screen.dart';
 import '../../features/posts/presentation/screens/feed_screen.dart';
 import '../../features/posts/presentation/screens/post_detail_screen.dart';
@@ -15,6 +17,9 @@ import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/quizzes/presentation/screens/create_quiz_screen.dart';
 import '../../features/quizzes/presentation/screens/quizzes_screen.dart';
 import '../../features/quizzes/presentation/screens/take_quiz_screen.dart';
+import '../../features/projects/presentation/screens/create_project_screen.dart';
+import '../../features/projects/presentation/screens/project_detail_screen.dart';
+import '../../features/projects/presentation/screens/projects_screen.dart';
 import '../../features/resources/presentation/screens/resource_detail_screen.dart';
 import '../../features/resources/presentation/screens/resources_screen.dart';
 import '../../features/resources/presentation/screens/upload_resource_screen.dart';
@@ -41,7 +46,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       }
 
       if (!loggedIn) return loggingIn ? null : AppRoutes.login;
-      if (loggingIn || state.matchedLocation == '/') return AppRoutes.home;
+      if (loggingIn) return AppRoutes.home;
+      if (state.matchedLocation == '/') return AppRoutes.home;
       return null;
     },
     routes: [
@@ -64,9 +70,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: AppRoutes.postDetail,
-            builder: (context, state) => PostDetailScreen(
-              postId: state.pathParameters['postId']!,
-            ),
+            builder: (context, state) =>
+                PostDetailScreen(postId: state.pathParameters['postId']!),
           ),
         ],
       ),
@@ -101,6 +106,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
+      GoRoute(
+        path: AppRoutes.projects,
+        builder: (context, state) => const ProjectsScreen(),
+        routes: [
+          GoRoute(
+            path: AppRoutes.createProject,
+            builder: (context, state) => const CreateProjectScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.projectDetail,
+            builder: (context, state) => ProjectDetailScreen(
+              projectId: state.pathParameters['projectId']!,
+            ),
+          ),
+        ],
+      ),
 
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
@@ -118,7 +139,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRoutes.messages,
-                builder: (context, state) => const Center(child: Text("Messages (Bientôt)")),
+                builder: (context, state) => const ConversationsScreen(),
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.conversationDetail,
+                    builder: (context, state) => ChatScreen(
+                      conversationId: state.pathParameters['conversationId']!,
+                      otherParticipantId: state.extra as String?,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

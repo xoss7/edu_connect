@@ -13,12 +13,14 @@ class StorageService {
     final bucket = segments.first;
     final filePath = segments.sublist(1).join('/');
 
-    await _supabase.storage.from(bucket).upload(
+    await _supabase.storage
+        .from(bucket)
+        .upload(
           filePath,
           file,
           fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
         );
-    
+
     return _supabase.storage.from(bucket).getPublicUrl(filePath);
   }
 

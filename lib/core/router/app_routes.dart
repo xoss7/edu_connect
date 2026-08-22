@@ -9,6 +9,11 @@ class AppRoutes {
   static const String resources = '/resources';
   static const String quizzes = '/quizzes';
   static const String messages = '/messages';
+  static const String projects = '/projects';
+
+  // Relative to [projects]
+  static const String createProject = 'create';
+  static const String projectDetail = ':projectId';
 
   // Relative to [profile] — full path is '/profile/edit'.
   static const String editProfile = 'edit';
@@ -26,4 +31,7 @@ class AppRoutes {
   // '/quizzes/:quizId'.
   static const String createQuiz = 'create';
   static const String takeQuiz = ':quizId';
+
+  // Relative to [messages] — full path is '/messages/:conversationId'.
+  static const String conversationDetail = ':conversationId';
 }

@@ -19,12 +19,14 @@ class CreateQuizController extends AsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       final uid = ref.read(authServiceProvider).currentUser!.id;
       try {
-        await ref.read(quizRepositoryProvider).createQuiz(
-          createurId: uid,
-          titre: titre,
-          matiere: matiere,
-          questions: questions,
-        );
+        await ref
+            .read(quizRepositoryProvider)
+            .createQuiz(
+              createurId: uid,
+              titre: titre,
+              matiere: matiere,
+              questions: questions,
+            );
       } catch (e, st) {
         debugPrint('Error creating quiz: $e');
         debugPrint(st.toString());

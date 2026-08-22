@@ -48,9 +48,16 @@ class ResourceRepository {
   Future<void> incrementDownloads(String resourceId) async {
     // Note: increment in SQL is better done via RPC or simple update
     // For simplicity, we get current and increment
-    final resource = await _supabase.from('resources').select('downloads').eq('id', resourceId).single();
+    final resource = await _supabase
+        .from('resources')
+        .select('downloads')
+        .eq('id', resourceId)
+        .single();
     final downloads = (resource['downloads'] as int) + 1;
-    await _supabase.from('resources').update({'downloads': downloads}).eq('id', resourceId);
+    await _supabase
+        .from('resources')
+        .update({'downloads': downloads})
+        .eq('id', resourceId);
   }
 }
 

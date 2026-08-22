@@ -51,7 +51,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         return;
       }
       if (previous?.isLoading == true && !next.isLoading) {
-        context.go(AppRoutes.feed);
+        context.go(AppRoutes.home);
       }
     });
 

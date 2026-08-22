@@ -33,7 +33,9 @@ class HomeScreen extends ConsumerWidget {
               const SizedBox(height: AppDimensions.spaceLg),
               Text(
                 "Qu'est-ce qu'on fait aujourd'hui ?",
-                style: AppTextStyles.title.copyWith(fontWeight: FontWeight.bold),
+                style: AppTextStyles.title.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: AppDimensions.spaceMd),
               // Feature Grid
@@ -72,11 +74,7 @@ class HomeScreen extends ConsumerWidget {
                 title: "Matching de Projets",
                 assetPath: AppAssets.projectsTile,
                 isLarge: true,
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Bientôt disponible !")),
-                  );
-                },
+                onTap: () => context.push(AppRoutes.projects),
               ),
             ],
           ),
@@ -102,11 +100,15 @@ class _HomeHeader extends StatelessWidget {
             children: [
               Text(
                 "Bonjour,",
-                style: AppTextStyles.subtitle.copyWith(color: AppColors.textSecondary),
+                style: AppTextStyles.subtitle.copyWith(
+                  color: AppColors.textSecondary,
+                ),
               ),
               Text(
                 name.isNotEmpty ? name : "Étudiant",
-                style: AppTextStyles.headline.copyWith(fontWeight: FontWeight.bold),
+                style: AppTextStyles.headline.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -122,7 +124,11 @@ class _HomeHeader extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(Icons.stars_rounded, color: AppColors.secondary, size: 20),
+              const Icon(
+                Icons.stars_rounded,
+                color: AppColors.secondary,
+                size: 20,
+              ),
               const SizedBox(width: 4),
               Text(
                 "$score pts",
