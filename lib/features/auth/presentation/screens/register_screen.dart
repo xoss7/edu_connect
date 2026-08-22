@@ -24,7 +24,7 @@ class RegisterScreen extends ConsumerWidget {
         return;
       }
       if (previous?.isLoading == true && !next.isLoading) {
-        context.go(AppRoutes.feed);
+        context.go(AppRoutes.home);
       }
     });
 

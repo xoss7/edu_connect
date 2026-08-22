@@ -15,6 +15,9 @@ import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/quizzes/presentation/screens/create_quiz_screen.dart';
 import '../../features/quizzes/presentation/screens/quizzes_screen.dart';
 import '../../features/quizzes/presentation/screens/take_quiz_screen.dart';
+import '../../features/projects/presentation/screens/create_project_screen.dart';
+import '../../features/projects/presentation/screens/project_detail_screen.dart';
+import '../../features/projects/presentation/screens/projects_screen.dart';
 import '../../features/resources/presentation/screens/resource_detail_screen.dart';
 import '../../features/resources/presentation/screens/resources_screen.dart';
 import '../../features/resources/presentation/screens/upload_resource_screen.dart';
@@ -41,7 +44,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       }
 
       if (!loggedIn) return loggingIn ? null : AppRoutes.login;
-      if (loggingIn || state.matchedLocation == '/') return AppRoutes.home;
+      if (loggingIn) return AppRoutes.home;
+      if (state.matchedLocation == '/') return AppRoutes.home;
       return null;
     },
     routes: [
@@ -98,6 +102,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: AppRoutes.takeQuiz,
             builder: (context, state) =>
                 TakeQuizScreen(quizId: state.pathParameters['quizId']!),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: AppRoutes.projects,
+        builder: (context, state) => const ProjectsScreen(),
+        routes: [
+          GoRoute(
+            path: AppRoutes.createProject,
+            builder: (context, state) => const CreateProjectScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.projectDetail,
+            builder: (context, state) => ProjectDetailScreen(
+              projectId: state.pathParameters['projectId']!,
+            ),
           ),
         ],
       ),

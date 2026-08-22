@@ -72,11 +72,7 @@ class HomeScreen extends ConsumerWidget {
                 title: "Matching de Projets",
                 assetPath: AppAssets.projectsTile,
                 isLarge: true,
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Bientôt disponible !")),
-                  );
-                },
+                onTap: () => context.push(AppRoutes.projects),
               ),
             ],
           ),
