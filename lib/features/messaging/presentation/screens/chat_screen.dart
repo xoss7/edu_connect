@@ -71,14 +71,25 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         children: [
           Expanded(
             child: messagesAsync.when(
-              data: (messages) => ListView.builder(
-                padding: const EdgeInsets.all(AppDimensions.spaceMd),
-                itemCount: messages.length,
-                itemBuilder: (context, index) => MessageBubble(
-                  message: messages[index],
-                  isOwnMessage: messages[index].auteurId == currentUid,
-                ),
-              ),
+              data: (messages) {
+                // messagesProvider streams oldest-first (created_at
+                // ascending). Reversing here + reverse: true anchors the
+                // list to the bottom, so the newest message is always
+                // visible without manual scrolling — the standard chat
+                // idiom, since a plain top-anchored ListView would open
+                // showing the oldest messages instead.
+                final reversedMessages = messages.reversed.toList();
+                return ListView.builder(
+                  reverse: true,
+                  padding: const EdgeInsets.all(AppDimensions.spaceMd),
+                  itemCount: reversedMessages.length,
+                  itemBuilder: (context, index) => MessageBubble(
+                    message: reversedMessages[index],
+                    isOwnMessage:
+                        reversedMessages[index].auteurId == currentUid,
+                  ),
+                );
+              },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, stackTrace) =>
                   const Center(child: Text(AppStrings.genericError)),

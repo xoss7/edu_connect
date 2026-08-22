@@ -214,7 +214,17 @@ class _ApplicantList extends ConsumerWidget {
                                   uidB: match.candidateId,
                                 );
                             if (!context.mounted) return;
-                            context.push(
+                            // .go(), not .push(): this jumps into the
+                            // Messages shell branch from outside it. The
+                            // branch's navigator stack persists across
+                            // visits, so .push()-ing a conversation already
+                            // present there (e.g. reopened from here after
+                            // visiting it via the Messages tab) creates a
+                            // duplicate page key and crashes the Navigator.
+                            // .go() replaces the stack instead of layering
+                            // onto it — same pattern already used by
+                            // HomeScreen's "Mon Profil" tile.
+                            context.go(
                               '${AppRoutes.messages}/$conversationId',
                               extra: match.candidateId,
                             );
