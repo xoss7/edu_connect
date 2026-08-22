@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_text_styles.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/services/auth_service.dart';
 import '../../../../core/widgets/initials_avatar.dart';
+import '../../../messaging/data/conversation_repository.dart';
 import '../../../profile/presentation/providers/profile_providers.dart';
 import '../providers/project_actions_controller.dart';
 import '../providers/project_providers.dart';
@@ -164,7 +167,7 @@ class _ApplicantList extends ConsumerWidget {
                   ),
                   title: Text(candidateAsync.value?.nom ?? 'Candidat'),
                   subtitle: Text("Statut: ${match.statut.value}"),
-                  trailing: match.statut.value == 'en_attente'
+                  trailing: match.statut == MatchStatut.enAttente
                       ? Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -177,9 +180,9 @@ class _ApplicantList extends ConsumerWidget {
                                   .read(
                                     projectActionsControllerProvider.notifier,
                                   )
-                                  .updateMatchStatus(
-                                    match.id,
-                                    MatchStatut.accepte,
+                                  .acceptMatch(
+                                    matchId: match.id,
+                                    otherUserId: match.candidateId,
                                   ),
                             ),
                             IconButton(
@@ -194,6 +197,28 @@ class _ApplicantList extends ConsumerWidget {
                                   ),
                             ),
                           ],
+                        )
+                      : match.statut == MatchStatut.accepte
+                      ? IconButton(
+                          icon: const Icon(Icons.chat_bubble_outline),
+                          tooltip: AppStrings.messageButtonTooltip,
+                          onPressed: () async {
+                            final uid = ref
+                                .read(authServiceProvider)
+                                .currentUser!
+                                .id;
+                            final conversationId = await ref
+                                .read(conversationRepositoryProvider)
+                                .getOrCreateConversation(
+                                  uidA: uid,
+                                  uidB: match.candidateId,
+                                );
+                            if (!context.mounted) return;
+                            context.push(
+                              '${AppRoutes.messages}/$conversationId',
+                              extra: match.candidateId,
+                            );
+                          },
                         )
                       : null,
                 );
