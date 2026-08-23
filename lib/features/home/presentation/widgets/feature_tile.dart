@@ -35,11 +35,12 @@ class FeatureTile extends StatelessWidget {
           ),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: isLarge ? 160 : 110, // Increased sizes from 120/80
+            // Expanded (rather than a fixed-height SizedBox) lets the image
+            // area shrink to whatever height the grid cell actually has on
+            // a given screen, instead of overflowing on narrower phones.
+            Expanded(
               child: Center(
                 child: assetPath != null
                     ? Image.asset(assetPath!, fit: BoxFit.contain)
@@ -59,6 +60,8 @@ class FeatureTile extends StatelessWidget {
                 color: AppColors.textPrimary,
               ),
               textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

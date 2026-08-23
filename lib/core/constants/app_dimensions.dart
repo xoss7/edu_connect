@@ -13,4 +13,10 @@ class AppDimensions {
   static const double radiusPill = 999;
 
   static const double illustrationSize = 220;
+
+  // Home dashboard feature tiles. childAspectRatio leaves the grid cells
+  // a bit taller than wide so there's room for the title below the image
+  // without the fixed padding/text height overflowing on narrow phones.
+  static const double homeTileAspectRatio = 0.85;
+  static const double homeLargeTileHeight = 240;
 }
