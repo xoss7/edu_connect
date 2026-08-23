@@ -45,6 +45,7 @@ class HomeScreen extends ConsumerWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: AppDimensions.spaceMd,
                 mainAxisSpacing: AppDimensions.spaceMd,
+                childAspectRatio: AppDimensions.homeTileAspectRatio,
                 children: [
                   FeatureTile(
                     title: "Fil d'actualité",
@@ -70,11 +71,19 @@ class HomeScreen extends ConsumerWidget {
               ),
               const SizedBox(height: AppDimensions.spaceLg),
               // Upcoming Feature / Special Highlight
-              FeatureTile(
-                title: "Matching de Projets",
-                assetPath: AppAssets.projectsTile,
-                isLarge: true,
-                onTap: () => context.push(AppRoutes.projects),
+              // FeatureTile's image area uses Expanded internally, which
+              // needs a bounded height from its parent — unlike the grid
+              // above (whose cells are always bounded by childAspectRatio),
+              // this tile sits directly in a scrolling Column, so it needs
+              // an explicit height here to provide that bound.
+              SizedBox(
+                height: AppDimensions.homeLargeTileHeight,
+                child: FeatureTile(
+                  title: "Matching de Projets",
+                  assetPath: AppAssets.projectsTile,
+                  isLarge: true,
+                  onTap: () => context.push(AppRoutes.projects),
+                ),
               ),
             ],
           ),
@@ -109,6 +118,8 @@ class _HomeHeader extends StatelessWidget {
                 style: AppTextStyles.headline.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
